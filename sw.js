@@ -1,30 +1,29 @@
-const CACHE_NAME = 'istighatsah-v1';
+const CACHE_NAME = 'maddatul-istighatsah-v1';
 const urlsToCache = [
   './',
   './index.html',
   './manifest.json',
-  './icon.png'
+  './icon.png' // Pastikan Anda memiliki file icon.png di folder yang sama
 ];
 
-// Menyimpan file ke memori HP (Install)
+// Saat aplikasi pertama kali dibuka (Install)
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
+        console.log('Opened cache');
         return cache.addAll(urlsToCache);
       })
   );
 });
 
-// Membaca file dari memori saat offline (Fetch)
+// Saat aplikasi memanggil data (Fetch)
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        if (response) {
-          return response; // Gunakan file dari memori (cache)
-        }
-        return fetch(event.request); // Ambil dari internet jika belum ada di memori
+        // Jika file ada di cache (offline), tampilkan. Jika tidak, ambil dari internet.
+        return response || fetch(event.request);
       })
   );
 });
