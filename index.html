@@ -4,152 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>مادة الإستغاثة</title>
-    <!-- KTP Aplikasi -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#F26522">
     <link rel="apple-touch-icon" href="icon.png">
-    
-    <!-- Font Arab -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-    
     <style>
-        :root {
-            --bg-putih: #FFFFFF;
-            --aksen-oranye: #F26522;
-            --teks-hitam: #1A1A1A;
-            --font-arab: 'Amiri', serif;
-        }
-
+        :root { --bg-putih: #FFFFFF; --aksen-oranye: #F26522; --teks-hitam: #1A1A1A; --font-arab: 'Amiri', serif; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-        body {
-            background-color: var(--bg-putih); color: var(--teks-hitam);
-            font-family: system-ui, -apple-system, sans-serif;
-            display: flex; flex-direction: column; height: 100vh; overflow: hidden; 
-        }
-
-        header {
-            background-color: var(--aksen-oranye); color: var(--bg-putih);
-            padding: 15px 20px; display: flex; justify-content: space-between;
-            align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 10;
-        }
-
+        body { background-color: var(--bg-putih); color: var(--teks-hitam); font-family: system-ui, sans-serif; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        header { background-color: var(--aksen-oranye); color: var(--bg-putih); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 10; }
         .judul-aplikasi { font-family: var(--font-arab); font-size: 24px; font-weight: bold; }
-
         .kontrol-teks { display: flex; gap: 8px; }
-
-        .kontrol-teks button {
-            background: rgba(255,255,255,0.2); border: 1px solid var(--bg-putih);
-            color: var(--bg-putih); padding: 5px 12px; border-radius: 5px;
-            font-size: 16px; font-weight: bold; cursor: pointer;
-        }
-
-        /* --- HALAMAN SAMPUL --- */
-        #halaman-sampul {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--bg-putih); z-index: 50; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            padding: 20px; transition: opacity 0.5s ease-out;
-        }
-
-        #gambar-sampul {
-            max-width: 90%; max-height: 70vh;
-            border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            margin-bottom: 30px; object-fit: contain;
-        }
-
-        .btn-buka-kitab {
-            background-color: var(--aksen-oranye); color: var(--bg-putih);
-            border: none; padding: 15px 40px; border-radius: 30px;
-            font-size: 20px; font-weight: bold; cursor: pointer;
-            box-shadow: 0 6px 12px rgba(242, 101, 34, 0.3); font-family: var(--font-arab);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        /* --- Area Baca Utama --- */
-        #area-baca {
-            flex: 1; padding: 25px 20px 100px 20px; 
-            overflow-y: auto; position: relative; transition: opacity 0.3s ease-in-out; 
-            display: none; /* Disembunyikan dulu sampai sampul dibuka */
-        }
-
-        .judul-bab {
-            font-size: 18px; color: var(--aksen-oranye); text-align: center;
-            margin-bottom: 20px; border-bottom: 2px dashed var(--aksen-oranye); padding-bottom: 10px;
-        }
-
-        #teks-arab {
-            font-family: var(--font-arab); font-size: 32px; 
-            line-height: 2; text-align: justify; white-space: pre-wrap; 
-        }
-
-        #loading {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 16px; color: var(--aksen-oranye); display: none; text-align: center; line-height: 1.5; z-index: 100;
-        }
-
-        footer {
-            background-color: var(--bg-putih); padding: 15px 20px; border-top: 1px solid #EEEEEE;
-            display: none; /* Disembunyikan dulu sampai sampul dibuka */
-            justify-content: space-between; gap: 15px; position: fixed;
-            bottom: 0; left: 0; width: 100%; z-index: 100; padding-bottom: env(safe-area-inset-bottom, 15px);
-        }
-
-        .btn-nav {
-            flex: 1; background-color: var(--aksen-oranye); color: var(--bg-putih);
-            border: none; padding: 15px; border-radius: 8px; font-size: 16px;
-            font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center;
-        }
-
-        .btn-nav:disabled { background-color: #CCCCCC; cursor: not-allowed; }
-
-        /* --- Modal Daftar Isi --- */
-        #modal-daftar-isi {
-            display: none; position: fixed; z-index: 200; left: 0; top: 0;
-            width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);
-            backdrop-filter: blur(2px);
-        }
-
-        .modal-konten {
-            background-color: var(--bg-putih); margin: 15% auto; padding: 20px;
-            border-radius: 12px; width: 85%; max-width: 400px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); max-height: 70vh;
-            display: flex; flex-direction: column;
-        }
-
-        .modal-header {
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 2px dashed var(--aksen-oranye); padding-bottom: 15px; margin-bottom: 15px;
-        }
-
-        .modal-header h3 { color: var(--aksen-oranye); font-family: var(--font-arab); font-size: 22px; }
-
-        .btn-tutup { background: none; border: none; font-size: 20px; color: #999; cursor: pointer; font-weight: bold; }
-
-        #list-daftar-isi { overflow-y: auto; flex: 1; padding-right: 5px; }
-
-        .item-daftar-isi {
-            display: block; width: 100%; text-align: right; padding: 12px 15px;
-            margin-bottom: 10px; background-color: #FDFDFD; border: 1px solid #EEEEEE;
-            border-radius: 8px; font-family: var(--font-arab); font-size: 18px;
-            color: var(--teks-hitam); cursor: pointer; transition: 0.2s;
-        }
-
-        .item-daftar-isi:active { background-color: rgba(242, 101, 34, 0.1); border-color: var(--aksen-oranye); }
+        .kontrol-teks button { background: rgba(255,255,255,0.2); border: 1px solid var(--bg-putih); color: var(--bg-putih); padding: 5px 12px; border-radius: 5px; font-size: 14px; font-weight: bold; cursor: pointer; }
+        #halaman-sampul { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--bg-putih); z-index: 50; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; transition: opacity 0.5s ease-out; }
+        #gambar-sampul { max-width: 90%; max-height: 70vh; border-radius: 8px; margin-bottom: 30px; object-fit: contain; }
+        .btn-buka-kitab { background-color: var(--aksen-oranye); color: var(--bg-putih); border: none; padding: 15px 40px; border-radius: 30px; font-size: 20px; font-weight: bold; cursor: pointer; font-family: var(--font-arab); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        #area-baca { flex: 1; padding: 25px 20px 100px 20px; overflow-y: auto; position: relative; transition: opacity 0.3s ease-in-out; display: none; }
+        .judul-bab { font-size: 18px; color: var(--aksen-oranye); text-align: center; margin-bottom: 20px; border-bottom: 2px dashed var(--aksen-oranye); padding-bottom: 10px; }
+        #teks-arab { font-family: var(--font-arab); font-size: 32px; line-height: 2; text-align: justify; white-space: pre-wrap; }
+        #loading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 16px; color: var(--aksen-oranye); display: none; text-align: center; z-index: 100; }
+        footer { background-color: var(--bg-putih); padding: 15px 20px; border-top: 1px solid #EEEEEE; display: none; justify-content: space-between; gap: 15px; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; padding-bottom: env(safe-area-inset-bottom, 15px); }
+        .btn-nav { flex: 1; background-color: var(--aksen-oranye); color: var(--bg-putih); border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        .btn-nav:disabled { background-color: #CCCCCC; }
+        
+        /* Modal & List Style */
+        .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(2px); }
+        .modal-konten { background-color: var(--bg-putih); margin: 15% auto; padding: 20px; border-radius: 12px; width: 85%; max-width: 400px; max-height: 70vh; display: flex; flex-direction: column; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed var(--aksen-oranye); padding-bottom: 10px; margin-bottom: 15px; }
+        .list-container { overflow-y: auto; flex: 1; }
+        .item-list { display: block; width: 100%; text-align: right; padding: 12px; margin-bottom: 10px; background-color: #FDFDFD; border: 1px solid #EEEEEE; border-radius: 8px; font-size: 16px; cursor: pointer; }
+        .agenda-card { background: #fffaf7; border-left: 4px solid var(--aksen-oranye); padding: 12px; margin-bottom: 10px; border-radius: 4px; text-align: right; }
+        .agenda-title { font-weight: bold; color: var(--aksen-oranye); margin-bottom: 5px; }
+        .agenda-detail { font-size: 14px; color: #666; }
     </style>
 </head>
 <body>
 
-    <!-- Layar Sampul -->
     <div id="halaman-sampul">
         <div id="loading">Menyiapkan Kitab...</div>
-        <!-- Pastikan nama file gambar di bawah ini sama dengan file di folder Anda -->
         <img src="sampul.jpg" alt="Sampul Kitab" id="gambar-sampul">
         <button class="btn-buka-kitab" id="btn-mulai" onclick="bukaKitab()" style="display: none;">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</button>
     </div>
@@ -157,9 +50,8 @@
     <header>
         <div class="judul-aplikasi">مادة الإستغاثة</div>
         <div class="kontrol-teks">
-            <button onclick="bukaDaftarIsi()">☰ الفهرس</button>
-            <button onclick="ubahUkuran(1)">A+</button>
-            <button onclick="ubahUkuran(-1)">A-</button>
+            <button onclick="bukaModal('modal-agenda')">📅 Agenda</button>
+            <button onclick="bukaModal('modal-daftar-isi')">☰ Menu</button>
         </div>
     </header>
 
@@ -175,156 +67,93 @@
         <button class="btn-nav" id="btn-sebelumnya" onclick="gantiHalaman(-1)">Sebelumnya »</button>
     </footer>
 
-    <!-- Komponen Modal Daftar Isi -->
-    <div id="modal-daftar-isi">
+    <div id="modal-daftar-isi" class="modal">
         <div class="modal-konten">
-            <div class="modal-header">
-                <h3>الفهرس (Daftar Isi)</h3>
-                <button class="btn-tutup" onclick="tutupDaftarIsi()">✕</button>
-            </div>
-            <div id="list-daftar-isi"></div>
+            <div class="modal-header"><h3>Menu Wirid</h3><button onclick="tutupModal('modal-daftar-isi')">✕</button></div>
+            <div id="list-daftar-isi" class="list-container"></div>
+        </div>
+    </div>
+
+    <div id="modal-agenda" class="modal">
+        <div class="modal-konten">
+            <div class="modal-header"><h3>Agenda IASS</h3><button onclick="tutupModal('modal-agenda')">✕</button></div>
+            <div id="list-agenda" class="list-container"></div>
         </div>
     </div>
 
     <script>
-        // === REGISTRASI OFFLINE SERVICE WORKER ===
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').then(registration => {
-                    console.log('Service Worker terdaftar!');
-                }).catch(err => {
-                    console.log('Service Worker gagal:', err);
-                });
-            });
-        }
-
-        // === MASUKKAN LINK URL APPS SCRIPT ANDA DI SINI ===
-        const API_URL = "https://script.google.com/macros/s/AKfycbz74v_F5gVIRpyAVFJY9oN62gFHboBXaZkIpNeGyWBw9NnTR_LSyCAKPcgj4q3AgWTh/exec";
-        
-        let dataWirid = [];
-        let halamanSaatIni = 0;
-        let ukuranFont = 32;
+        const API_URL = "https://script.google.com/macros/s/AKfycbyc8T_ZNnYlQ7YWC9-Td1kyKUXuH-2sfH1CuzxSpnWlAK0JckwJubOtf9oLHlv4qd8/exec";
+        let dataWirid = []; let dataAgenda = []; let halamanSaatIni = 0; let ukuranFont = 32;
 
         function ubahKeAngkaArab(teks) {
             if (!teks) return '';
             const angkaArab = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-            return teks.replace(/[0-9]/g, function(w) {
-                return angkaArab[w];
-            });
+            return teks.toString().replace(/[0-9]/g, w => angkaArab[w]);
         }
 
         async function muatData() {
             document.getElementById('loading').style.display = 'block';
-            document.getElementById('gambar-sampul').style.opacity = '0.5'; // Redupkan sampul saat loading
-
             try {
                 const response = await fetch(API_URL);
-                const data = await response.json();
-                localStorage.setItem('dataWiridOffline', JSON.stringify(data));
-                prosesDanTampilkanData(data);
-            } catch (error) {
-                const dataOffline = localStorage.getItem('dataWiridOffline');
-                if (dataOffline) {
-                    prosesDanTampilkanData(JSON.parse(dataOffline));
-                } else {
-                    document.getElementById('loading').innerText = "Gagal memuat data.\nMohon buka aplikasi sekali saja menggunakan koneksi internet untuk mengunduh naskah.";
-                }
+                const res = await response.json();
+                localStorage.setItem('dataOffline', JSON.stringify(res));
+                prosesData(res);
+            } catch (e) {
+                const off = localStorage.getItem('dataOffline');
+                if (off) prosesData(JSON.parse(off));
             }
         }
 
-        function prosesDanTampilkanData(data) {
-            dataWirid = data.sort((a, b) => parseInt(a.ID) - parseInt(b.ID));
-            if(dataWirid.length > 0) {
-                // Sembunyikan loading, terangkan gambar, dan munculkan tombol "Bismillah"
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('gambar-sampul').style.opacity = '1';
-                document.getElementById('btn-mulai').style.display = 'block';
-                
-                tampilkanHalaman(0); // Siapkan halaman 0 di balik layar
-                buatDaftarIsi(); 
-            }
-        }
-
-        // === FUNGSI MEMBUKA KITAB (Animasi Menghilangkan Sampul) ===
-        function bukaKitab() {
-            const layarSampul = document.getElementById('halaman-sampul');
-            layarSampul.style.opacity = '0';
-            
-            // Tampilkan area baca dan footer secara bersamaan
-            document.getElementById('area-baca').style.display = 'block';
-            document.querySelector('footer').style.display = 'flex';
-
-            setTimeout(() => {
-                layarSampul.style.display = 'none';
-            }, 500); // Menunggu animasi transisi selesai
-        }
-
-        function tampilkanHalaman(index) {
-            const areaBaca = document.getElementById('area-baca');
-            areaBaca.style.opacity = 0; 
-
-            setTimeout(() => {
-                const data = dataWirid[index];
-                document.getElementById('judul-teks').innerText = ubahKeAngkaArab(data.Judul || '');
-                let teksBersih = data.Isi_Arab ? data.Isi_Arab.replace(/\\r\\n/g, '<br>').replace(/\\n/g, '<br>') : '';
-                teksBersih = ubahKeAngkaArab(teksBersih); 
-                document.getElementById('teks-arab').innerHTML = teksBersih;
-
-                document.getElementById('btn-sebelumnya').disabled = (index === 0);
-                document.getElementById('btn-selanjutnya').disabled = (index === dataWirid.length - 1);
-                
-                areaBaca.scrollTop = 0; 
-                areaBaca.style.opacity = 1; 
-            }, 300);
-        }
-
-        function gantiHalaman(arah) {
-            let halamanBaru = halamanSaatIni + arah;
-            if (halamanBaru >= 0 && halamanBaru < dataWirid.length) {
-                halamanSaatIni = halamanBaru;
-                tampilkanHalaman(halamanSaatIni);
-            }
-        }
-
-        function ubahUkuran(arah) {
-            ukuranFont += (arah * 4); 
-            if(ukuranFont < 20) ukuranFont = 20;
-            if(ukuranFont > 60) ukuranFont = 60;
-            document.getElementById('teks-arab').style.fontSize = ukuranFont + 'px';
+        function prosesData(res) {
+            dataWirid = res.wirid.sort((a, b) => parseInt(a.ID) - parseInt(b.ID));
+            dataAgenda = res.agenda || [];
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('btn-mulai').style.display = 'block';
+            tampilkanHalaman(0);
+            buatDaftarIsi();
+            buatListAgenda();
         }
 
         function buatDaftarIsi() {
-            const wadahDaftarIsi = document.getElementById('list-daftar-isi');
-            wadahDaftarIsi.innerHTML = ''; 
-
-            dataWirid.forEach((item, index) => {
-                const tombol = document.createElement('button');
-                tombol.className = 'item-daftar-isi';
-                tombol.innerText = ubahKeAngkaArab(item.Judul || `Bagian ${index + 1}`); 
-                
-                tombol.onclick = () => {
-                    halamanSaatIni = index;
-                    tampilkanHalaman(halamanSaatIni);
-                    tutupDaftarIsi();
-                };
-                
-                wadahDaftarIsi.appendChild(tombol);
-            });
+            const container = document.getElementById('list-daftar-isi');
+            container.innerHTML = dataWirid.map((item, i) => 
+                `<button class="item-list" onclick="pilihHalaman(${i})">${ubahKeAngkaArab(item.Judul)}</button>`
+            ).join('');
         }
 
-        function bukaDaftarIsi() { document.getElementById('modal-daftar-isi').style.display = 'block'; }
-        function tutupDaftarIsi() { document.getElementById('modal-daftar-isi').style.display = 'none'; }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('modal-daftar-isi');
-            if (event.target == modal) { tutupDaftarIsi(); }
+        function buatListAgenda() {
+            const container = document.getElementById('list-agenda');
+            if (dataAgenda.length === 0) { container.innerHTML = "<p style='text-align:center'>Belum ada agenda terdekat.</p>"; return; }
+            container.innerHTML = dataAgenda.map(item => `
+                <div class="agenda-card">
+                    <div class="agenda-title">${item.Kegiatan}</div>
+                    <div class="agenda-detail">📅 ${ubahKeAngkaArab(item.Tanggal)} | ⏰ ${ubahKeAngkaArab(item.Jam)}</div>
+                    <div class="agenda-detail">📍 ${item.Lokasi}</div>
+                </div>
+            `).join('');
         }
 
-        if(API_URL !== "MASUKKAN_URL_ANDA_DI_SINI_TETAP_GUNAKAN_TANDA_KUTIP") {
-            muatData();
-        } else {
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('loading').innerText = "Mohon masukkan URL API Google Sheets Anda.";
+        function tampilkanHalaman(index) {
+            const item = dataWirid[index];
+            document.getElementById('judul-teks').innerText = ubahKeAngkaArab(item.Judul);
+            let teks = item.Isi_Arab ? item.Isi_Arab.replace(/\\r\\n/g, '<br>').replace(/\\n/g, '<br>') : '';
+            document.getElementById('teks-arab').innerHTML = ubahKeAngkaArab(teks);
+            document.getElementById('btn-sebelumnya').disabled = (index === 0);
+            document.getElementById('btn-selanjutnya').disabled = (index === dataWirid.length - 1);
+        }
+
+        function pilihHalaman(i) { halamanSaatIni = i; tampilkanHalaman(i); tutupModal('modal-daftar-isi'); }
+        function gantiHalaman(arah) { halamanSaatIni += arah; tampilkanHalaman(halamanSaatIni); document.getElementById('area-baca').scrollTop = 0; }
+        function bukaKitab() { document.getElementById('halaman-sampul').style.opacity = '0'; document.getElementById('area-baca').style.display = 'block'; document.querySelector('footer').style.display = 'flex'; setTimeout(() => document.getElementById('halaman-sampul').style.display = 'none', 500); }
+        function bukaModal(id) { document.getElementById(id).style.display = 'block'; }
+        function tutupModal(id) { document.getElementById(id).style.display = 'none'; }
+        function ubahUkuran(arah) { ukuranFont += (arah * 4); if(ukuranFont < 20) ukuranFont = 20; document.getElementById('teks-arab').style.fontSize = ukuranFont + 'px'; }
+
+        window.onclick = e => { if (e.target.className === 'modal') { e.target.style.display = 'none'; } }
+        muatData();
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js'); });
         }
     </script>
 </body>
