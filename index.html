@@ -9,20 +9,19 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- === KODE ONESIGNAL (DENGAN SCOPE YANG BENAR) === -->
+    <!-- === KODE ONESIGNAL FINAL === -->
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       OneSignalDeferred.push(async function(OneSignal) {
         await OneSignal.init({
           appId: "9c0b8050-c795-4ae5-b5ed-02391cc3f88e",
-          serviceWorkerPath: "sw.js",
-          // INI KUNCI PERBAIKANNYA: Menegaskan folder GitHub
-          serviceWorkerParam: { scope: "/maddatul-istighatsah/" } 
+          // Perintah paksa agar OneSignal mencari filenya di dalam folder ini
+          path: "/maddatul-istighatsah/" 
         });
       });
     </script>
-    <!-- ============================================== -->
+    <!-- ============================== -->
 
     <style>
         :root { --bg-putih: #FFFFFF; --aksen-oranye: #F26522; --teks-hitam: #1A1A1A; --font-arab: 'Amiri', serif; }
@@ -204,10 +203,10 @@
         window.onclick = e => { if (e.target.className === 'modal') { e.target.style.display = 'none'; } }
         muatData();
 
-        // INI JUGA PENTING: Menambahkan scope pada Service Worker bawaan
+        // Registrasi Service Worker diarahkan ke file baru
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => { 
-                navigator.serviceWorker.register('./sw.js', { scope: '/maddatul-istighatsah/' }); 
+                navigator.serviceWorker.register('./OneSignalSDKWorker.js', { scope: '/maddatul-istighatsah/' }); 
             });
         }
     </script>
