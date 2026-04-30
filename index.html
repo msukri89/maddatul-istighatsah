@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>مادة الإستغاثة</title>
-    <!-- KTP Aplikasi -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#F26522">
     <link rel="apple-touch-icon" href="icon.png">
     
-    <!-- Font Arab -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -105,37 +103,40 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js').then(registration => {
-                    console.log('Service Worker terdaftar!', registration.scope);
+                    console.log('Service Worker terdaftar!');
                 }).catch(err => {
                     console.log('Service Worker gagal:', err);
                 });
             });
         }
 
-        // === API URL SUDAH SAYA PERBAIKI DI SINI ===
-        const API_URL = "https://script.google.com/macros/s/AKfycbwQfcaE-bPQocVZ-_d3SaSK5EcOl9q87wkzO9Nbfg8-NlaSjCNmMW5l_8W3D-zJe9Bq/exec";
+        // === MASUKKAN LINK URL APPS SCRIPT ANDA DI SINI ===
+        const API_URL = "MASUKKAN_URL_ANDA_DI_SINI_TETAP_GUNAKAN_TANDA_KUTIP";
         
         let dataWirid = [];
         let halamanSaatIni = 0;
         let ukuranFont = 32;
+
+        // FUNGSI BARU: Mengubah angka Latin ke angka Arab otomatis
+        function ubahKeAngkaArab(teks) {
+            if (!teks) return '';
+            const angkaArab = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+            return teks.replace(/[0-9]/g, function(w) {
+                return angkaArab[w];
+            });
+        }
 
         async function muatData() {
             document.getElementById('loading').style.display = 'block';
             document.getElementById('konten-kitab').style.display = 'none';
 
             try {
-                // Coba ambil data terbaru dari internet
                 const response = await fetch(API_URL);
                 const data = await response.json();
-                
-                // Jika sukses, simpan ke memori HP
                 localStorage.setItem('dataWiridOffline', JSON.stringify(data));
                 prosesDanTampilkanData(data);
-                
             } catch (error) {
-                // JIKA TIDAK ADA INTERNET, ambil dari memori HP
                 const dataOffline = localStorage.getItem('dataWiridOffline');
-                
                 if (dataOffline) {
                     prosesDanTampilkanData(JSON.parse(dataOffline));
                 } else {
@@ -158,9 +159,13 @@
             setTimeout(() => {
                 const data = dataWirid[index];
                 
-                document.getElementById('judul-teks').innerText = data.Judul || '';
+                // Ubah angka pada Judul
+                document.getElementById('judul-teks').innerText = ubahKeAngkaArab(data.Judul || '');
                 
+                // Rapikan spasi/enter dan ubah angka pada Isi Arab
                 let teksBersih = data.Isi_Arab ? data.Isi_Arab.replace(/\\r\\n/g, '<br>').replace(/\\n/g, '<br>') : '';
+                teksBersih = ubahKeAngkaArab(teksBersih); // Eksekusi penerjemah angka di sini
+                
                 document.getElementById('teks-arab').innerHTML = teksBersih;
 
                 document.getElementById('btn-sebelumnya').disabled = (index === 0);
@@ -189,8 +194,12 @@
             document.getElementById('teks-arab').style.fontSize = ukuranFont + 'px';
         }
 
-        // Panggil fungsi langsung saat pertama kali dibuka
-        muatData();
+        if(API_URL !== "MASUKKAN_URL_ANDA_DI_SINI_TETAP_GUNAKAN_TANDA_KUTIP") {
+            muatData();
+        } else {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('loading').innerText = "Mohon masukkan URL API Google Sheets Anda.";
+        }
     </script>
 </body>
 </html>
