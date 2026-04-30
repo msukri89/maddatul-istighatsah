@@ -1,4 +1,4 @@
-const CACHE_NAME = 'maddatul-istighatsah-v3'; // Versi 3 untuk memaksa update
+const CACHE_NAME = 'maddatul-istighatsah-v4'; // Versi 3 untuk memaksa update
 const urlsToCache = [
   './',
   './index.html',
