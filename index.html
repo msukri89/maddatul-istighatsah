@@ -44,9 +44,39 @@
             font-size: 16px; font-weight: bold; cursor: pointer;
         }
 
+        /* --- HALAMAN SAMPUL --- */
+        #halaman-sampul {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg-putih); z-index: 50; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 20px; transition: opacity 0.5s ease-out;
+        }
+
+        #gambar-sampul {
+            max-width: 90%; max-height: 70vh;
+            border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            margin-bottom: 30px; object-fit: contain;
+        }
+
+        .btn-buka-kitab {
+            background-color: var(--aksen-oranye); color: var(--bg-putih);
+            border: none; padding: 15px 40px; border-radius: 30px;
+            font-size: 20px; font-weight: bold; cursor: pointer;
+            box-shadow: 0 6px 12px rgba(242, 101, 34, 0.3); font-family: var(--font-arab);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- Area Baca Utama --- */
         #area-baca {
             flex: 1; padding: 25px 20px 100px 20px; 
             overflow-y: auto; position: relative; transition: opacity 0.3s ease-in-out; 
+            display: none; /* Disembunyikan dulu sampai sampul dibuka */
         }
 
         .judul-bab {
@@ -61,12 +91,13 @@
 
         #loading {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 16px; color: var(--aksen-oranye); display: none; text-align: center; line-height: 1.5;
+            font-size: 16px; color: var(--aksen-oranye); display: none; text-align: center; line-height: 1.5; z-index: 100;
         }
 
         footer {
             background-color: var(--bg-putih); padding: 15px 20px; border-top: 1px solid #EEEEEE;
-            display: flex; justify-content: space-between; gap: 15px; position: fixed;
+            display: none; /* Disembunyikan dulu sampai sampul dibuka */
+            justify-content: space-between; gap: 15px; position: fixed;
             bottom: 0; left: 0; width: 100%; z-index: 100; padding-bottom: env(safe-area-inset-bottom, 15px);
         }
 
@@ -101,9 +132,7 @@
 
         .btn-tutup { background: none; border: none; font-size: 20px; color: #999; cursor: pointer; font-weight: bold; }
 
-        #list-daftar-isi {
-            overflow-y: auto; flex: 1; padding-right: 5px;
-        }
+        #list-daftar-isi { overflow-y: auto; flex: 1; padding-right: 5px; }
 
         .item-daftar-isi {
             display: block; width: 100%; text-align: right; padding: 12px 15px;
@@ -117,10 +146,17 @@
 </head>
 <body>
 
+    <!-- Layar Sampul -->
+    <div id="halaman-sampul">
+        <div id="loading">Menyiapkan Kitab...</div>
+        <!-- Pastikan nama file gambar di bawah ini sama dengan file di folder Anda -->
+        <img src="sampul.jpg" alt="Sampul Kitab" id="gambar-sampul">
+        <button class="btn-buka-kitab" id="btn-mulai" onclick="bukaKitab()" style="display: none;">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</button>
+    </div>
+
     <header>
         <div class="judul-aplikasi">مادة الإستغاثة</div>
         <div class="kontrol-teks">
-            <!-- Tombol Menu Daftar Isi -->
             <button onclick="bukaDaftarIsi()">☰ الفهرس</button>
             <button onclick="ubahUkuran(1)">A+</button>
             <button onclick="ubahUkuran(-1)">A-</button>
@@ -128,7 +164,6 @@
     </header>
 
     <div id="area-baca">
-        <div id="loading">Memuat Naskah...</div>
         <div id="konten-kitab">
             <h2 class="judul-bab" id="judul-teks"></h2>
             <div id="teks-arab"></div>
@@ -147,9 +182,7 @@
                 <h3>الفهرس (Daftar Isi)</h3>
                 <button class="btn-tutup" onclick="tutupDaftarIsi()">✕</button>
             </div>
-            <div id="list-daftar-isi">
-                <!-- Daftar isi akan dimunculkan di sini oleh JavaScript -->
-            </div>
+            <div id="list-daftar-isi"></div>
         </div>
     </div>
 
@@ -166,7 +199,7 @@
         }
 
         // === MASUKKAN LINK URL APPS SCRIPT ANDA DI SINI ===
-        const API_URL = "https://script.google.com/macros/s/AKfycbyaeFusbMV_rKts0FAw0qXrNm1cU4-WyPvIuaHr0Ve_I4MUWpH97K5hLxUKhDTvv3Yp/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbz74v_F5gVIRpyAVFJY9oN62gFHboBXaZkIpNeGyWBw9NnTR_LSyCAKPcgj4q3AgWTh/exec";
         
         let dataWirid = [];
         let halamanSaatIni = 0;
@@ -182,7 +215,7 @@
 
         async function muatData() {
             document.getElementById('loading').style.display = 'block';
-            document.getElementById('konten-kitab').style.display = 'none';
+            document.getElementById('gambar-sampul').style.opacity = '0.5'; // Redupkan sampul saat loading
 
             try {
                 const response = await fetch(API_URL);
@@ -202,9 +235,28 @@
         function prosesDanTampilkanData(data) {
             dataWirid = data.sort((a, b) => parseInt(a.ID) - parseInt(b.ID));
             if(dataWirid.length > 0) {
-                tampilkanHalaman(0);
-                buatDaftarIsi(); // Panggil fungsi pembuatan daftar isi setelah data siap
+                // Sembunyikan loading, terangkan gambar, dan munculkan tombol "Bismillah"
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('gambar-sampul').style.opacity = '1';
+                document.getElementById('btn-mulai').style.display = 'block';
+                
+                tampilkanHalaman(0); // Siapkan halaman 0 di balik layar
+                buatDaftarIsi(); 
             }
+        }
+
+        // === FUNGSI MEMBUKA KITAB (Animasi Menghilangkan Sampul) ===
+        function bukaKitab() {
+            const layarSampul = document.getElementById('halaman-sampul');
+            layarSampul.style.opacity = '0';
+            
+            // Tampilkan area baca dan footer secara bersamaan
+            document.getElementById('area-baca').style.display = 'block';
+            document.querySelector('footer').style.display = 'flex';
+
+            setTimeout(() => {
+                layarSampul.style.display = 'none';
+            }, 500); // Menunggu animasi transisi selesai
         }
 
         function tampilkanHalaman(index) {
@@ -220,9 +272,6 @@
 
                 document.getElementById('btn-sebelumnya').disabled = (index === 0);
                 document.getElementById('btn-selanjutnya').disabled = (index === dataWirid.length - 1);
-
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('konten-kitab').style.display = 'block';
                 
                 areaBaca.scrollTop = 0; 
                 areaBaca.style.opacity = 1; 
@@ -244,18 +293,15 @@
             document.getElementById('teks-arab').style.fontSize = ukuranFont + 'px';
         }
 
-        // === FUNGSI BARU: DAFTAR ISI ===
         function buatDaftarIsi() {
             const wadahDaftarIsi = document.getElementById('list-daftar-isi');
-            wadahDaftarIsi.innerHTML = ''; // Bersihkan isi sebelumnya
+            wadahDaftarIsi.innerHTML = ''; 
 
             dataWirid.forEach((item, index) => {
                 const tombol = document.createElement('button');
                 tombol.className = 'item-daftar-isi';
-                // Judul diambil dari Sheets, otomatis diubah ke angka Arab
                 tombol.innerText = ubahKeAngkaArab(item.Judul || `Bagian ${index + 1}`); 
                 
-                // Ketika diklik, pindah ke halaman tersebut dan tutup modal
                 tombol.onclick = () => {
                     halamanSaatIni = index;
                     tampilkanHalaman(halamanSaatIni);
@@ -266,20 +312,12 @@
             });
         }
 
-        function bukaDaftarIsi() {
-            document.getElementById('modal-daftar-isi').style.display = 'block';
-        }
+        function bukaDaftarIsi() { document.getElementById('modal-daftar-isi').style.display = 'block'; }
+        function tutupDaftarIsi() { document.getElementById('modal-daftar-isi').style.display = 'none'; }
 
-        function tutupDaftarIsi() {
-            document.getElementById('modal-daftar-isi').style.display = 'none';
-        }
-
-        // Menutup modal jika area gelap di luar kotak diklik
         window.onclick = function(event) {
             const modal = document.getElementById('modal-daftar-isi');
-            if (event.target == modal) {
-                tutupDaftarIsi();
-            }
+            if (event.target == modal) { tutupDaftarIsi(); }
         }
 
         if(API_URL !== "MASUKKAN_URL_ANDA_DI_SINI_TETAP_GUNAKAN_TANDA_KUTIP") {
