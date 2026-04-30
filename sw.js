@@ -1,41 +1,52 @@
-const CACHE_NAME = 'maddatul-istighatsah-v10'; // Versi 3 untuk memaksa update
+// === TITIPAN KODE ONESIGNAL DI BARIS PALING ATAS ===
+importScripts("https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js");
+
+const CACHE_NAME = 'maddatul-istighatsah-v11';
 const urlsToCache = [
   './',
   './index.html',
   './manifest.json',
-  './icon.png'
+  './icon.png',
+  './sampul.jpg'
 ];
 
-// 1. Install & Paksa Aktif (Skip Waiting)
 self.addEventListener('install', event => {
-  self.skipWaiting(); // Memaksa HP langsung menggunakan versi terbaru ini
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
+      .then(cache => {
+        return cache.addAll(urlsToCache);
+      })
   );
 });
 
-// 2. Bersihkan Brankas Lama (Activate)
+self.addEventListener('fetch', event => {
+  // Abaikan permintaan ke Google Sheets agar data selalu baru jika ada internet
+  if (event.request.method !== 'GET' || event.request.url.includes('script.google.com') || event.request.url.includes('onesignal.com')) {
+      return;
+  }
+  
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        if (response) {
+          return response;
+        }
+        return fetch(event.request);
+      })
+  );
+});
+
 self.addEventListener('activate', event => {
+  const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Menghapus cache lama:', cacheName);
-            return caches.delete(cacheName); // Menghapus memori versi error sebelumnya
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            return caches.delete(cacheName);
           }
         })
       );
-    })
-  );
-});
-
-// 3. Strategi "Network First" (Internet Dulu, Baru Offline)
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    fetch(event.request).catch(() => {
-      return caches.match(event.request);
     })
   );
 });
