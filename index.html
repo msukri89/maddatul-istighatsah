@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>مادة الإستغاثة</title>
-<link rel="manifest" href="manifest.json">
+    <!-- KTP Aplikasi -->
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#F26522">
     <link rel="apple-touch-icon" href="icon.png">
-
+    
+    <!-- Font Arab -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- Identitas Visual (60% Putih, 30% Oranye, 10% Hitam) --- */
         :root {
             --bg-putih: #FFFFFF;
             --aksen-oranye: #F26522;
@@ -19,131 +20,61 @@
             --font-arab: 'Amiri', serif;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
         body {
-            background-color: var(--bg-putih);
-            color: var(--teks-hitam);
+            background-color: var(--bg-putih); color: var(--teks-hitam);
             font-family: system-ui, -apple-system, sans-serif;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden; 
+            display: flex; flex-direction: column; height: 100vh; overflow: hidden; 
         }
 
-        /* --- Header / Bagian Atas --- */
         header {
-            background-color: var(--aksen-oranye);
-            color: var(--bg-putih);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 10;
+            background-color: var(--aksen-oranye); color: var(--bg-putih);
+            padding: 15px 20px; display: flex; justify-content: space-between;
+            align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 10;
         }
 
-        .judul-aplikasi {
-            font-family: var(--font-arab);
-            font-size: 24px;
-            font-weight: bold;
-        }
+        .judul-aplikasi { font-family: var(--font-arab); font-size: 24px; font-weight: bold; }
 
         .kontrol-teks button {
-            background: rgba(255,255,255,0.2);
-            border: 1px solid var(--bg-putih);
-            color: var(--bg-putih);
-            padding: 5px 12px;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-right: 8px;
+            background: rgba(255,255,255,0.2); border: 1px solid var(--bg-putih);
+            color: var(--bg-putih); padding: 5px 12px; border-radius: 5px;
+            font-size: 16px; font-weight: bold; cursor: pointer; margin-right: 8px;
         }
 
-        /* --- Area Bacaan Utama --- */
         #area-baca {
-            flex: 1;
-            /* Padding bawah diperbesar jadi 100px agar teks paling bawah tidak tertutup tombol fixed */
-            padding: 25px 20px 100px 20px; 
-            overflow-y: auto;
-            position: relative;
-            transition: opacity 0.3s ease-in-out; 
+            flex: 1; padding: 25px 20px 100px 20px; 
+            overflow-y: auto; position: relative; transition: opacity 0.3s ease-in-out; 
         }
 
         .judul-bab {
-            font-size: 18px;
-            color: var(--aksen-oranye);
-            text-align: center;
-            margin-bottom: 20px;
-            border-bottom: 2px dashed var(--aksen-oranye);
-            padding-bottom: 10px;
+            font-size: 18px; color: var(--aksen-oranye); text-align: center;
+            margin-bottom: 20px; border-bottom: 2px dashed var(--aksen-oranye); padding-bottom: 10px;
         }
 
         #teks-arab {
-            font-family: var(--font-arab);
-            font-size: 32px; 
-            line-height: 2;
-            text-align: justify;
-            white-space: pre-wrap; 
+            font-family: var(--font-arab); font-size: 32px; 
+            line-height: 2; text-align: justify; white-space: pre-wrap; 
         }
 
-        /* --- Loading Screen --- */
         #loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 18px;
-            color: var(--aksen-oranye);
-            display: none;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 16px; color: var(--aksen-oranye); display: none; text-align: center; line-height: 1.5;
         }
 
-        /* --- Navigasi Bawah (Balik Halaman) --- */
         footer {
-            background-color: var(--bg-putih);
-            padding: 15px 20px;
-            border-top: 1px solid #EEEEEE;
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            
-            /* Perbaikan posisi agar selalu mengambang di bawah layar Android/HP */
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            padding-bottom: env(safe-area-inset-bottom, 15px);
+            background-color: var(--bg-putih); padding: 15px 20px; border-top: 1px solid #EEEEEE;
+            display: flex; justify-content: space-between; gap: 15px; position: fixed;
+            bottom: 0; left: 0; width: 100%; z-index: 100; padding-bottom: env(safe-area-inset-bottom, 15px);
         }
 
         .btn-nav {
-            flex: 1;
-            background-color: var(--aksen-oranye);
-            color: var(--bg-putih);
-            border: none;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(242, 101, 34, 0.2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
+            flex: 1; background-color: var(--aksen-oranye); color: var(--bg-putih);
+            border: none; padding: 15px; border-radius: 8px; font-size: 16px;
+            font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center;
         }
 
-        .btn-nav:disabled {
-            background-color: #CCCCCC;
-            box-shadow: none;
-            cursor: not-allowed;
-        }
+        .btn-nav:disabled { background-color: #CCCCCC; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -165,17 +96,24 @@
     </div>
 
     <footer>
-        <button class="btn-nav" id="btn-selanjutnya" onclick="gantiHalaman(1)">
-            « Selanjutnya
-        </button>
-        <button class="btn-nav" id="btn-sebelumnya" onclick="gantiHalaman(-1)">
-            Sebelumnya »
-        </button>
+        <button class="btn-nav" id="btn-selanjutnya" onclick="gantiHalaman(1)">« Selanjutnya</button>
+        <button class="btn-nav" id="btn-sebelumnya" onclick="gantiHalaman(-1)">Sebelumnya »</button>
     </footer>
 
     <script>
-        // === MASUKKAN LINK URL APPS SCRIPT ANDA DI SINI ===
-        const API_URL = "https://script.google.com/macros/s/AKfycbylyVL1VpNR9-xWzwK0hIRHXG8fOCQsKt6DJvfMYd4Sk20AT23AA62uMvgCdMkOSLsG/exec";
+        // === REGISTRASI OFFLINE SERVICE WORKER ===
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').then(registration => {
+                    console.log('Service Worker terdaftar!', registration.scope);
+                }).catch(err => {
+                    console.log('Service Worker gagal:', err);
+                });
+            });
+        }
+
+        // === API URL SUDAH SAYA PERBAIKI DI SINI ===
+        const API_URL = "https://script.google.com/macros/s/AKfycbwQfcaE-bPQocVZ-_d3SaSK5EcOl9q87wkzO9Nbfg8-NlaSjCNmMW5l_8W3D-zJe9Bq/exec";
         
         let dataWirid = [];
         let halamanSaatIni = 0;
@@ -186,16 +124,30 @@
             document.getElementById('konten-kitab').style.display = 'none';
 
             try {
+                // Coba ambil data terbaru dari internet
                 const response = await fetch(API_URL);
                 const data = await response.json();
                 
-                dataWirid = data.sort((a, b) => parseInt(a.ID) - parseInt(b.ID));
+                // Jika sukses, simpan ke memori HP
+                localStorage.setItem('dataWiridOffline', JSON.stringify(data));
+                prosesDanTampilkanData(data);
                 
-                if(dataWirid.length > 0) {
-                    tampilkanHalaman(0);
-                }
             } catch (error) {
-                document.getElementById('loading').innerText = "Gagal memuat data. Pastikan koneksi internet aktif.";
+                // JIKA TIDAK ADA INTERNET, ambil dari memori HP
+                const dataOffline = localStorage.getItem('dataWiridOffline');
+                
+                if (dataOffline) {
+                    prosesDanTampilkanData(JSON.parse(dataOffline));
+                } else {
+                    document.getElementById('loading').innerText = "Gagal memuat data.\nMohon buka aplikasi sekali saja menggunakan koneksi internet untuk mengunduh naskah.";
+                }
+            }
+        }
+
+        function prosesDanTampilkanData(data) {
+            dataWirid = data.sort((a, b) => parseInt(a.ID) - parseInt(b.ID));
+            if(dataWirid.length > 0) {
+                tampilkanHalaman(0);
             }
         }
 
@@ -237,26 +189,8 @@
             document.getElementById('teks-arab').style.fontSize = ukuranFont + 'px';
         }
 
-        if(API_URL !== "MASUKKAN_URL_ANDA_DI_SINI_TETAP_GUNAKAN_TANDA_KUTIP") {
-            muatData();
-        } else {
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('loading').innerText = "Mohon masukkan URL API Google Sheets Anda.";
-        }
-    </script>
-<script>
-        // Mendaftarkan Service Worker untuk fitur Offline
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                .then(registration => {
-                    console.log('ServiceWorker sukses didaftarkan dengan scope: ', registration.scope);
-                })
-                .catch(err => {
-                    console.log('Pendaftaran ServiceWorker gagal: ', err);
-                });
-            });
-        }
+        // Panggil fungsi langsung saat pertama kali dibuka
+        muatData();
     </script>
 </body>
 </html>
