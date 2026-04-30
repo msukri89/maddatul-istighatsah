@@ -9,17 +9,19 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- === KODE ONESIGNAL (TUKANG POS NOTIFIKASI) === -->
+    <!-- === KODE ONESIGNAL (DENGAN PETA JALAN FOLDER) === -->
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       OneSignalDeferred.push(async function(OneSignal) {
         await OneSignal.init({
           appId: "9c0b8050-c795-4ae5-b5ed-02391cc3f88e",
+          serviceWorkerPath: "/maddatul-istighatsah/OneSignalSDKWorker.js",
+          serviceWorkerParam: { scope: "/maddatul-istighatsah/" }
         });
       });
     </script>
-    <!-- ============================================== -->
+    <!-- ================================================= -->
 
     <style>
         :root { --bg-putih: #FFFFFF; --aksen-oranye: #F26522; --teks-hitam: #1A1A1A; --font-arab: 'Amiri', serif; }
@@ -68,7 +70,6 @@
     <header>
         <div class="judul-aplikasi">مادة الإستغاثة</div>
         <div class="kontrol-teks">
-            <!-- Tambahan tombol Notif manual -->
             <button onclick="mintaIzinNotif()">🔔 Notif</button>
             <button onclick="bukaModal('modal-agenda')">📅</button>
             <button onclick="bukaModal('modal-daftar-isi')">☰</button>
@@ -112,7 +113,6 @@
         
         let dataWirid = []; let dataAgenda = []; let halamanSaatIni = 0; let ukuranFont = 32;
 
-        // Fungsi Meminta Izin Notifikasi (Dihubungkan ke tombol Lonceng)
         function mintaIzinNotif() {
             window.OneSignalDeferred.push(function(OneSignal) {
                 OneSignal.Slidedown.promptPush();
@@ -204,7 +204,6 @@
         window.onclick = e => { if (e.target.className === 'modal') { e.target.style.display = 'none'; } }
         muatData();
 
-        // Service Worker Offline 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js'); });
         }
