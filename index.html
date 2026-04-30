@@ -36,10 +36,12 @@
 
         .judul-aplikasi { font-family: var(--font-arab); font-size: 24px; font-weight: bold; }
 
+        .kontrol-teks { display: flex; gap: 8px; }
+
         .kontrol-teks button {
             background: rgba(255,255,255,0.2); border: 1px solid var(--bg-putih);
             color: var(--bg-putih); padding: 5px 12px; border-radius: 5px;
-            font-size: 16px; font-weight: bold; cursor: pointer; margin-right: 8px;
+            font-size: 16px; font-weight: bold; cursor: pointer;
         }
 
         #area-baca {
@@ -75,6 +77,42 @@
         }
 
         .btn-nav:disabled { background-color: #CCCCCC; cursor: not-allowed; }
+
+        /* --- Modal Daftar Isi --- */
+        #modal-daftar-isi {
+            display: none; position: fixed; z-index: 200; left: 0; top: 0;
+            width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(2px);
+        }
+
+        .modal-konten {
+            background-color: var(--bg-putih); margin: 15% auto; padding: 20px;
+            border-radius: 12px; width: 85%; max-width: 400px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); max-height: 70vh;
+            display: flex; flex-direction: column;
+        }
+
+        .modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px dashed var(--aksen-oranye); padding-bottom: 15px; margin-bottom: 15px;
+        }
+
+        .modal-header h3 { color: var(--aksen-oranye); font-family: var(--font-arab); font-size: 22px; }
+
+        .btn-tutup { background: none; border: none; font-size: 20px; color: #999; cursor: pointer; font-weight: bold; }
+
+        #list-daftar-isi {
+            overflow-y: auto; flex: 1; padding-right: 5px;
+        }
+
+        .item-daftar-isi {
+            display: block; width: 100%; text-align: right; padding: 12px 15px;
+            margin-bottom: 10px; background-color: #FDFDFD; border: 1px solid #EEEEEE;
+            border-radius: 8px; font-family: var(--font-arab); font-size: 18px;
+            color: var(--teks-hitam); cursor: pointer; transition: 0.2s;
+        }
+
+        .item-daftar-isi:active { background-color: rgba(242, 101, 34, 0.1); border-color: var(--aksen-oranye); }
     </style>
 </head>
 <body>
@@ -82,6 +120,8 @@
     <header>
         <div class="judul-aplikasi">مادة الإستغاثة</div>
         <div class="kontrol-teks">
+            <!-- Tombol Menu Daftar Isi -->
+            <button onclick="bukaDaftarIsi()">☰ الفهرس</button>
             <button onclick="ubahUkuran(1)">A+</button>
             <button onclick="ubahUkuran(-1)">A-</button>
         </div>
@@ -100,6 +140,19 @@
         <button class="btn-nav" id="btn-sebelumnya" onclick="gantiHalaman(-1)">Sebelumnya »</button>
     </footer>
 
+    <!-- Komponen Modal Daftar Isi -->
+    <div id="modal-daftar-isi">
+        <div class="modal-konten">
+            <div class="modal-header">
+                <h3>الفهرس (Daftar Isi)</h3>
+                <button class="btn-tutup" onclick="tutupDaftarIsi()">✕</button>
+            </div>
+            <div id="list-daftar-isi">
+                <!-- Daftar isi akan dimunculkan di sini oleh JavaScript -->
+            </div>
+        </div>
+    </div>
+
     <script>
         // === REGISTRASI OFFLINE SERVICE WORKER ===
         if ('serviceWorker' in navigator) {
@@ -112,14 +165,13 @@
             });
         }
 
-        // === LINK URL APPS SCRIPT SUDAH TERPASANG DENGAN BENAR DI SINI ===
-        const API_URL = "https://script.google.com/macros/s/AKfycbyhIupTFNa14AyMnFmeMAE7U5QSx6VdBzw7npGS_v0QQ88NwtSz3FptOwI47ET7dbF7/exec";
+        // === MASUKKAN LINK URL APPS SCRIPT ANDA DI SINI ===
+        const API_URL = "https://script.google.com/macros/s/AKfycbyaeFusbMV_rKts0FAw0qXrNm1cU4-WyPvIuaHr0Ve_I4MUWpH97K5hLxUKhDTvv3Yp/exec";
         
         let dataWirid = [];
         let halamanSaatIni = 0;
         let ukuranFont = 32;
 
-        // FUNGSI BARU: Mengubah angka Latin ke angka Arab otomatis
         function ubahKeAngkaArab(teks) {
             if (!teks) return '';
             const angkaArab = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
@@ -151,6 +203,7 @@
             dataWirid = data.sort((a, b) => parseInt(a.ID) - parseInt(b.ID));
             if(dataWirid.length > 0) {
                 tampilkanHalaman(0);
+                buatDaftarIsi(); // Panggil fungsi pembuatan daftar isi setelah data siap
             }
         }
 
@@ -160,14 +213,9 @@
 
             setTimeout(() => {
                 const data = dataWirid[index];
-                
-                // Ubah angka pada Judul
                 document.getElementById('judul-teks').innerText = ubahKeAngkaArab(data.Judul || '');
-                
-                // Rapikan spasi/enter dan ubah angka pada Isi Arab
                 let teksBersih = data.Isi_Arab ? data.Isi_Arab.replace(/\\r\\n/g, '<br>').replace(/\\n/g, '<br>') : '';
-                teksBersih = ubahKeAngkaArab(teksBersih); // Eksekusi penerjemah angka di sini
-                
+                teksBersih = ubahKeAngkaArab(teksBersih); 
                 document.getElementById('teks-arab').innerHTML = teksBersih;
 
                 document.getElementById('btn-sebelumnya').disabled = (index === 0);
@@ -196,9 +244,50 @@
             document.getElementById('teks-arab').style.fontSize = ukuranFont + 'px';
         }
 
-        // Langsung muat data saat aplikasi dibuka
-        muatData();
-        
+        // === FUNGSI BARU: DAFTAR ISI ===
+        function buatDaftarIsi() {
+            const wadahDaftarIsi = document.getElementById('list-daftar-isi');
+            wadahDaftarIsi.innerHTML = ''; // Bersihkan isi sebelumnya
+
+            dataWirid.forEach((item, index) => {
+                const tombol = document.createElement('button');
+                tombol.className = 'item-daftar-isi';
+                // Judul diambil dari Sheets, otomatis diubah ke angka Arab
+                tombol.innerText = ubahKeAngkaArab(item.Judul || `Bagian ${index + 1}`); 
+                
+                // Ketika diklik, pindah ke halaman tersebut dan tutup modal
+                tombol.onclick = () => {
+                    halamanSaatIni = index;
+                    tampilkanHalaman(halamanSaatIni);
+                    tutupDaftarIsi();
+                };
+                
+                wadahDaftarIsi.appendChild(tombol);
+            });
+        }
+
+        function bukaDaftarIsi() {
+            document.getElementById('modal-daftar-isi').style.display = 'block';
+        }
+
+        function tutupDaftarIsi() {
+            document.getElementById('modal-daftar-isi').style.display = 'none';
+        }
+
+        // Menutup modal jika area gelap di luar kotak diklik
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal-daftar-isi');
+            if (event.target == modal) {
+                tutupDaftarIsi();
+            }
+        }
+
+        if(API_URL !== "MASUKKAN_URL_ANDA_DI_SINI_TETAP_GUNAKAN_TANDA_KUTIP") {
+            muatData();
+        } else {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('loading').innerText = "Mohon masukkan URL API Google Sheets Anda.";
+        }
     </script>
 </body>
 </html>
