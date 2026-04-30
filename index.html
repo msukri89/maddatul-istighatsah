@@ -9,16 +9,16 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     
-   <!-- === KODE ONESIGNAL FINAL === -->
+   <!-- === KODE ONESIGNAL FINAL MUTLAK === -->
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       OneSignalDeferred.push(async function(OneSignal) {
         await OneSignal.init({
           appId: "9c0b8050-c795-4ae5-b5ed-02391cc3f88e",
-          // KATA SANDI YANG BENAR AGAR ONESIGNAL MASUK KE FOLDER:
-          serviceWorkerPath: "/maddatul-istighatsah/OneSignalSDKWorker.js",
-          serviceWorkerParam: { scope: "/maddatul-istighatsah/" }
+          // Tulis alamat mutlak agar OneSignal tidak bisa tersesat lagi
+          serviceWorkerPath: "https://msukri89.github.io/maddatul-istighatsah/OneSignalSDKWorker.js",
+          serviceWorkerParam: { scope: "https://msukri89.github.io/maddatul-istighatsah/" }
         });
       });
     </script>
