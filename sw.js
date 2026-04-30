@@ -1,4 +1,4 @@
-const CACHE_NAME = 'maddatul-istighatsah-v1';
+const CACHE_NAME = 'maddatul-istighatsah-v2';
 const urlsToCache = [
   './',
   './index.html',
