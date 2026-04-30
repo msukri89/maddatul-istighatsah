@@ -9,20 +9,18 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- === KODE ONESIGNAL (PERBAIKAN PETA JALAN) === -->
+    <!-- === KODE ONESIGNAL (MENGGUNAKAN SW.JS) === -->
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       OneSignalDeferred.push(async function(OneSignal) {
         await OneSignal.init({
           appId: "9c0b8050-c795-4ae5-b5ed-02391cc3f88e",
-          // Cukup panggil nama filenya langsung karena berada di tempat yang sama
-          serviceWorkerPath: "OneSignalSDKWorker.js", 
-          serviceWorkerParam: { scope: "/maddatul-istighatsah/" }
+          serviceWorkerPath: "sw.js" 
         });
       });
     </script>
-    <!-- ============================================== -->
+    <!-- ========================================== -->
 
     <style>
         :root { --bg-putih: #FFFFFF; --aksen-oranye: #F26522; --teks-hitam: #1A1A1A; --font-arab: 'Amiri', serif; }
@@ -205,6 +203,7 @@
         window.onclick = e => { if (e.target.className === 'modal') { e.target.style.display = 'none'; } }
         muatData();
 
+        // Registrasi Service Worker Utama
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js'); });
         }
