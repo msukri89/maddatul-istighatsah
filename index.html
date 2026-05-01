@@ -26,53 +26,56 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-putih); color: var(--teks-hitam); font-family: system-ui, sans-serif; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
+        /* HEADER */
         header { background-color: var(--aksen-oranye); color: var(--bg-putih); padding: 15px 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 10; }
         .judul-aplikasi { font-family: var(--font-arab); font-size: 22px; font-weight: bold; cursor: pointer; }
-        
         .kontrol-teks { display: flex; gap: 5px; }
         .kontrol-teks button { background: rgba(255,255,255,0.2); border: 1px solid var(--bg-putih); color: var(--bg-putih); padding: 5px 8px; border-radius: 5px; font-size: 14px; font-weight: bold; cursor: pointer; }
         
-        /* === GAYA HALAMAN SAMPUL BARU (DASHBOARD FOOTER) === */
+        /* HALAMAN SAMPUL & DASHBOARD FOOTER */
         #halaman-sampul { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--bg-putih); z-index: 50; display: flex; flex-direction: column; transition: opacity 0.5s ease-out; }
         .cover-image-container { flex: 1; position: relative; width: 100%; overflow: hidden; }
         #gambar-sampul { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
         
-        .cover-footer { height: 25vh; background-color: var(--aksen-oranye); display: flex; align-items: center; justify-content: center; padding: 15px; box-shadow: 0 -4px 15px rgba(0,0,0,0.1); z-index: 2; }
-        
+        .cover-footer { height: 28vh; background-color: var(--aksen-oranye); display: flex; align-items: center; justify-content: center; padding: 15px; z-index: 2; }
         #menu-cover { width: 100%; max-width: 450px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        #menu-cover button { background-color: rgba(255, 255, 255, 0.15); color: #FFFFFF; border: none; padding: 12px 5px; border-radius: 12px; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: transform 0.15s ease-in-out, background-color 0.15s; }
+        #menu-cover button { background-color: rgba(255, 255, 255, 0.15); color: #FFFFFF; border: none; padding: 12px 5px; border-radius: 12px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: transform 0.1s; }
         #menu-cover button:active { transform: scale(0.92); background-color: rgba(255, 255, 255, 0.25); }
-        #menu-cover button svg { width: 26px; height: 26px; fill: currentColor; }
+        #menu-cover button svg { width: 24px; height: 24px; fill: #FFFFFF; }
         
-        #area-baca { flex: 1; padding: 25px 20px 100px 20px; overflow-y: auto; position: relative; transition: opacity 0.3s ease-in-out; display: none; }
+        /* AREA BACA */
+        #area-baca { flex: 1; padding: 25px 20px 100px 20px; overflow-y: auto; position: relative; display: none; }
         .judul-bab { font-size: 18px; color: var(--aksen-oranye); text-align: center; margin-bottom: 20px; border-bottom: 2px dashed var(--aksen-oranye); padding-bottom: 10px; }
         #teks-arab { font-family: var(--font-arab); font-size: 32px; line-height: 2; text-align: justify; white-space: pre-wrap; }
-        #loading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 16px; color: var(--bg-putih); display: none; text-align: center; z-index: 100; font-weight: bold; background: var(--aksen-oranye); padding: 10px 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        #loading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 16px; color: #fff; z-index: 100; font-weight: bold; background: var(--aksen-oranye); padding: 12px 25px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: none; }
         
+        /* FOOTER NAVIGASI */
         footer { background-color: var(--bg-putih); padding: 15px 20px; border-top: 1px solid #EEEEEE; display: none; justify-content: space-between; gap: 15px; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; padding-bottom: env(safe-area-inset-bottom, 15px); }
         .btn-nav { flex: 1; background-color: var(--aksen-oranye); color: var(--bg-putih); border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
         .btn-nav:disabled { background-color: #CCCCCC; }
         
-        /* === GAYA MODAL/POPUP PROFESIONAL BARU === */
+        /* MODAL / POPUP PROFESIONAL */
         .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(2px); }
-        .modal-konten { background-color: var(--bg-putih); margin: 15% auto; padding: 0; border-radius: 12px; width: 85%; max-width: 400px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .modal-header { background-color: var(--aksen-oranye); color: var(--bg-putih); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .modal-header h3 { margin: 0; font-size: 18px; font-weight: bold; color: var(--bg-putih); }
-        .btn-close { background: none; border: none; color: var(--bg-putih); font-size: 22px; cursor: pointer; padding: 0; line-height: 1; }
-        .modal-body { padding: 20px; max-height: 60vh; overflow-y: auto; }
+        .modal-konten { background-color: var(--bg-putih); margin: 12% auto; padding: 0; border-radius: 15px; width: 88%; max-width: 420px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+        .modal-header { background-color: var(--aksen-oranye); color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { margin: 0; font-size: 18px; font-weight: bold; color: #fff; }
+        .btn-close { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 0; line-height: 1; }
+        .modal-body { padding: 20px; max-height: 65vh; overflow-y: auto; }
         
-        .item-list { display: block; width: 100%; text-align: right; padding: 12px; margin-bottom: 10px; background-color: #FDFDFD; border: 1px solid #EEEEEE; border-radius: 8px; font-size: 16px; cursor: pointer; color: var(--teks-hitam); }
-        .agenda-card { background: #fffaf7; border-left: 4px solid var(--aksen-oranye); border-right: none; padding: 12px; margin-bottom: 10px; border-radius: 4px; text-align: left; direction: ltr; }
-        .agenda-title { font-weight: bold; color: var(--aksen-oranye); margin-bottom: 5px; font-size: 16px;}
-        .agenda-detail { font-size: 14px; color: #666; margin-bottom: 3px;}
-        .baris-shalat { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; font-size: 16px; color: var(--teks-hitam); }
+        /* KOMPONEN DALAM MODAL */
+        .item-list { display: block; width: 100%; text-align: right; padding: 14px; margin-bottom: 10px; background-color: #f9f9f9; border: 1px solid #eee; border-radius: 10px; font-size: 16px; cursor: pointer; color: var(--teks-hitam); }
+        .agenda-card { background: #fffaf7; border-left: 5px solid var(--aksen-oranye); padding: 15px; margin-bottom: 12px; border-radius: 8px; text-align: left; direction: ltr; }
+        .agenda-title { font-weight: bold; color: var(--aksen-oranye); margin-bottom: 6px; font-size: 17px;}
+        .agenda-detail { font-size: 14px; color: #555; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+        .link-peta { color: var(--aksen-oranye); text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 4px; margin-top: 5px; }
+        .baris-shalat { display: flex; justify-content: space-between; padding: 12px 5px; border-bottom: 1px solid #f0f0f0; font-size: 16px; }
 
-        /* GAYA TASBIH & KIBLAT */
-        .btn-tasbih-ketuk { width: 160px; height: 160px; border-radius: 50%; background-color: var(--aksen-oranye); color: white; font-size: 28px; border: none; box-shadow: 0 10px 20px rgba(242,101,34,0.3); cursor: pointer; margin: 20px auto; display: block; -webkit-tap-highlight-color: transparent; transition: transform 0.1s; }
-        .btn-tasbih-ketuk:active { transform: scale(0.92); background-color: #d9561a; }
-        #kompas-container { position: relative; width: 220px; height: 220px; border-radius: 50%; border: 6px solid var(--aksen-oranye); margin: 20px auto; display: flex; justify-content: center; align-items: center; background: url('https://upload.wikimedia.org/wikipedia/commons/1/18/Compass_rose_brown.svg') no-repeat center center; background-size: cover; }
-        #jarum-kiblat { position: absolute; width: 6px; height: 200px; transition: transform 0.2s ease-out; }
-        .panah-kiblat { width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-bottom: 40px solid #28a745; position: absolute; top: 0; left: -17px; }
+        /* TASBIH & KIBLAT */
+        .btn-tasbih-ketuk { width: 170px; height: 170px; border-radius: 50%; background-color: var(--aksen-oranye); color: white; font-size: 32px; border: none; box-shadow: 0 10px 25px rgba(242,101,34,0.4); cursor: pointer; margin: 25px auto; display: block; transition: transform 0.1s; }
+        .btn-tasbih-ketuk:active { transform: scale(0.9); }
+        #kompas-container { position: relative; width: 240px; height: 240px; border-radius: 50%; border: 8px solid var(--aksen-oranye); margin: 20px auto; display: flex; justify-content: center; align-items: center; background: url('https://upload.wikimedia.org/wikipedia/commons/1/18/Compass_rose_brown.svg') no-repeat center center; background-size: cover; }
+        #jarum-kiblat { position: absolute; width: 8px; height: 210px; transition: transform 0.2s ease-out; }
+        .panah-kiblat { width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-bottom: 45px solid #28a745; position: absolute; top: 0; left: -16px; }
     </style>
 </head>
 <body>
@@ -98,7 +101,7 @@
                     Shalat
                 </button>
                 <button onclick="bukaModal('modal-tasbih')">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-3-9c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM7 12c0-2.76 2.24-5 5-5s5 2.24 5 5-2.24 5-5 5-5-2.24-5-5z"/></svg>
                     Tasbih
                 </button>
                 <button onclick="bukaModal('modal-kiblat')">
@@ -114,7 +117,7 @@
     </div>
 
     <header>
-        <div class="judul-aplikasi" onclick="kembaliKeCover()" title="Kembali ke Sampul">مادة الإستغاثة</div>
+        <div class="judul-aplikasi" onclick="kembaliKeCover()">مادة الإستغاثة</div>
         <div class="kontrol-teks">
             <button onclick="ubahUkuran(1)">A+</button>
             <button onclick="ubahUkuran(-1)">A-</button>
@@ -148,7 +151,7 @@
     <div id="modal-agenda" class="modal">
         <div class="modal-konten">
             <div class="modal-header" style="direction: ltr;">
-                <h3>Agenda IASS</h3>
+                <h3>Agenda IASS Surabaya</h3>
                 <button class="btn-close" onclick="tutupModal('modal-agenda')">✕</button>
             </div>
             <div class="modal-body">
@@ -164,9 +167,9 @@
                 <button class="btn-close" onclick="tutupModal('modal-tasbih')">✕</button>
             </div>
             <div class="modal-body">
-                <div id="angka-tasbih" style="font-size: 80px; font-weight: bold; color: var(--aksen-oranye); font-family: var(--font-arab); line-height: 1;">٠</div>
+                <div id="angka-tasbih" style="font-size: 90px; font-weight: bold; color: var(--aksen-oranye); font-family: var(--font-arab);">٠</div>
                 <button class="btn-tasbih-ketuk" onclick="tambahTasbih()">Ketuk</button>
-                <button onclick="resetTasbih()" style="background: none; border: 2px solid var(--aksen-oranye); color: var(--aksen-oranye); padding: 10px 30px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px;">Mulai Ulang</button>
+                <button onclick="resetTasbih()" style="background: none; border: 2px solid var(--aksen-oranye); color: var(--aksen-oranye); padding: 12px 35px; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 15px;">Mulai Ulang</button>
             </div>
         </div>
     </div>
@@ -180,11 +183,9 @@
             <div class="modal-body">
                 <p id="info-kiblat" style="font-size: 14px; color: #666; margin-bottom: 10px;">Izinkan GPS & Gerakkan HP seperti angka 8</p>
                 <div id="kompas-container">
-                    <div id="jarum-kiblat">
-                        <div class="panah-kiblat"></div>
-                    </div>
+                    <div id="jarum-kiblat"><div class="panah-kiblat"></div></div>
                 </div>
-                <button onclick="mulaiKiblat()" style="margin-top: 20px; background-color: var(--aksen-oranye); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-size: 16px; font-weight:bold; cursor: pointer; width: 100%;">Deteksi Arah Kiblat</button>
+                <button onclick="mulaiKiblat()" style="margin-top: 25px; background-color: var(--aksen-oranye); color: white; border: none; padding: 15px; border-radius: 10px; font-size: 16px; font-weight:bold; cursor: pointer; width: 100%;">Deteksi Arah Kiblat</button>
             </div>
         </div>
     </div>
@@ -195,8 +196,8 @@
                 <h3>Jadwal Shalat Surabaya</h3>
                 <button class="btn-close" onclick="tutupModal('modal-shalat')">✕</button>
             </div>
-            <div class="modal-body" style="padding: 10px 20px;">
-                <div id="loading-shalat" style="text-align:center; padding: 20px; color: var(--aksen-oranye); font-weight: bold;">Mengambil data Kemenag...</div>
+            <div class="modal-body">
+                <div id="loading-shalat" style="text-align:center; padding: 20px; color: var(--aksen-oranye); font-weight: bold;">Menghubungi Server Kemenag...</div>
                 <div id="list-shalat" class="list-container" style="direction: ltr; display: none;"></div>
             </div>
         </div>
@@ -256,13 +257,16 @@
 
         function buatListAgenda() {
             const container = document.getElementById('list-agenda');
-            if (dataAgenda.length === 0) { container.innerHTML = "<p style='text-align:center; direction:ltr; margin-top:20px;'>Belum ada agenda terdekat.</p>"; return; }
+            if (dataAgenda.length === 0) { container.innerHTML = "<p style='text-align:center; padding:20px;'>Belum ada agenda terdekat.</p>"; return; }
+            
+            // Catatan: Indeks 4 (Kolom E) diasumsikan berisi Link Google Maps
             container.innerHTML = dataAgenda.map(item => `
                 <div class="agenda-card">
                     <div class="agenda-title">${item.Kegiatan || '-'}</div>
                     <div class="agenda-detail">📅 ${formatWaktu(item.Tanggal, 'tanggal')}</div>
                     <div class="agenda-detail">⏰ ${formatWaktu(item.Jam, 'jam')}</div>
                     <div class="agenda-detail">📍 ${item.Lokasi || '-'}</div>
+                    ${item.Link_Map ? `<a href="${item.Link_Map}" target="_blank" class="link-peta">Buka Lokasi di Google Maps ➔</a>` : ''}
                 </div>`).join('');
         }
 
@@ -299,108 +303,69 @@
 
         window.onclick = e => { if (e.target.className === 'modal') { e.target.style.display = 'none'; } }
 
-        // --- FITUR JADWAL SHALAT (KEMENAG) ---
+        // --- JADWAL SHALAT ---
         async function bukaJadwalShalat() {
             bukaModal('modal-shalat');
             const container = document.getElementById('list-shalat');
             const loading = document.getElementById('loading-shalat');
-            
             if (container.innerHTML !== '') return;
-            
             try {
                 const date = new Date();
-                const thn = date.getFullYear();
-                const bln = String(date.getMonth() + 1).padStart(2, '0');
-                const tgl = String(date.getDate()).padStart(2, '0');
-                
-                const res = await fetch(`https://api.myquran.com/v2/sholat/jadwal/1638/${thn}/${bln}/${tgl}`);
+                const res = await fetch(`https://api.myquran.com/v2/sholat/jadwal/1638/${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`);
                 const data = await res.json();
-                
                 if(data.status) {
                     const j = data.data.jadwal;
                     container.innerHTML = `
-                        <div style="text-align:center; background:var(--aksen-oranye); color:white; padding:8px; border-radius:6px; font-weight:bold; margin-bottom:15px; margin-top:10px;">${j.tanggal}</div>
+                        <div style="text-align:center; background:var(--aksen-oranye); color:white; padding:8px; border-radius:6px; font-weight:bold; margin-bottom:15px;">${j.tanggal}</div>
                         <div class="baris-shalat"><span>Imsak</span><strong>${j.imsak}</strong></div>
                         <div class="baris-shalat"><span>Subuh</span><strong>${j.subuh}</strong></div>
                         <div class="baris-shalat"><span>Terbit</span><strong>${j.terbit}</strong></div>
-                        <div class="baris-shalat"><span>Dhuha</span><strong>${j.dhuha}</strong></div>
                         <div class="baris-shalat"><span>Dzuhur</span><strong>${j.dzuhur}</strong></div>
                         <div class="baris-shalat"><span>Ashar</span><strong>${j.ashar}</strong></div>
                         <div class="baris-shalat"><span>Maghrib</span><strong>${j.maghrib}</strong></div>
                         <div class="baris-shalat"><span>Isya</span><strong>${j.isya}</strong></div>
                     `;
-                    loading.style.display = 'none';
-                    container.style.display = 'block';
+                    loading.style.display = 'none'; container.style.display = 'block';
                 }
-            } catch (e) {
-                loading.innerHTML = "Gagal memuat jadwal. Periksa koneksi internet.";
-            }
+            } catch (e) { loading.innerHTML = "Gagal memuat jadwal."; }
         }
 
-        // --- FITUR TASBIH DIGITAL ---
+        // --- TASBIH ---
         let hitunganTasbih = 0;
-        function tambahTasbih() {
-            hitunganTasbih++;
-            document.getElementById('angka-tasbih').innerText = ubahKeAngkaArab(hitunganTasbih);
-        }
-        function resetTasbih() {
-            hitunganTasbih = 0;
-            document.getElementById('angka-tasbih').innerText = ubahKeAngkaArab(0);
-        }
+        function tambahTasbih() { hitunganTasbih++; document.getElementById('angka-tasbih').innerText = ubahKeAngkaArab(hitunganTasbih); }
+        function resetTasbih() { hitunganTasbih = 0; document.getElementById('angka-tasbih').innerText = ubahKeAngkaArab(0); }
 
-        // --- FITUR KOMPAS KIBLAT ---
+        // --- KIBLAT ---
         let kiblatListener = null;
         function hitungSudutKiblat(lat, lng) {
             const kaabaLat = 21.422487 * Math.PI / 180; const kaabaLng = 39.826206 * Math.PI / 180;
             const myLat = lat * Math.PI / 180; const myLng = lng * Math.PI / 180;
             const y = Math.sin(kaabaLng - myLng);
             const x = Math.cos(myLat) * Math.tan(kaabaLat) - Math.sin(myLat) * Math.cos(kaabaLng - myLng);
-            let qibla = Math.atan2(y, x) * 180 / Math.PI;
-            return (qibla + 360) % 360;
+            return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
         }
-
         function mulaiKiblat() {
             const info = document.getElementById('info-kiblat');
-            info.innerText = "Mencari kordinat GPS Anda...";
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    const lat = position.coords.latitude; const lng = position.coords.longitude;
-                    const qiblaAngle = hitungSudutKiblat(lat, lng);
-                    info.innerText = "GPS Ditemukan. Mengaktifkan Kompas...";
-                    
+                    const qiblaAngle = hitungSudutKiblat(position.coords.latitude, position.coords.longitude);
+                    info.innerHTML = "Arah Kiblat: <strong style='color:#28a745'>" + Math.round(qiblaAngle) + "°</strong> dari Utara";
                     if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-                        DeviceOrientationEvent.requestPermission().then(permissionState => {
-                            if (permissionState === 'granted') jalankanKompas(qiblaAngle);
-                            else info.innerText = "Izin sensor kompas ditolak.";
-                        }).catch(console.error);
+                        DeviceOrientationEvent.requestPermission().then(state => { if (state === 'granted') jalankanKompas(qiblaAngle); });
                     } else { jalankanKompas(qiblaAngle); }
-                }, function() { info.innerText = "Gagal. Pastikan GPS/Lokasi HP menyala."; });
-            } else { info.innerText = "Browser tidak mendukung fitur GPS."; }
+                });
+            }
         }
-
         function jalankanKompas(qiblaAngle) {
-            const info = document.getElementById('info-kiblat');
             const jarum = document.getElementById('jarum-kiblat');
-            info.innerHTML = "Arah Kiblat: <strong style='color:#28a745'>" + Math.round(qiblaAngle) + "°</strong> dari Utara";
-            
             kiblatListener = function(event) {
-                let kompasAlpha = event.webkitCompassHeading || Math.abs(event.alpha - 360);
-                if (kompasAlpha) {
-                    let rotasi = qiblaAngle - kompasAlpha;
-                    jarum.style.transform = `rotate(${rotasi}deg)`;
-                }
+                let alpha = event.webkitCompassHeading || Math.abs(event.alpha - 360);
+                if (alpha) jarum.style.transform = `rotate(${qiblaAngle - alpha}deg)`;
             };
             window.addEventListener('deviceorientationabsolute', kiblatListener, true);
             window.addEventListener('deviceorientation', kiblatListener, true);
         }
-
-        function tutupKiblat() {
-            tutupModal('modal-kiblat');
-            if (kiblatListener) {
-                window.removeEventListener('deviceorientationabsolute', kiblatListener, true);
-                window.removeEventListener('deviceorientation', kiblatListener, true);
-            }
-        }
+        function tutupKiblat() { tutupModal('modal-kiblat'); if (kiblatListener) { window.removeEventListener('deviceorientationabsolute', kiblatListener, true); window.removeEventListener('deviceorientation', kiblatListener, true); } }
 
         muatData();
         if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js', { scope: '/maddatul-istighatsah/' }); }); }
