@@ -15,15 +15,24 @@
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       OneSignalDeferred.push(async function(OneSignal) {
         await OneSignal.init({
-          // MASUKKAN APP ID ONESIGNAL BAPAK YANG BARU DI BAWAH INI:
+          <!-- === KODE ONESIGNAL (PERBAIKAN JALUR ROOT) === -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          // Pastikan APP ID baru Bapak sudah dimasukkan di sini
           appId: "6501ee2c-6c80-4ad9-a734-5bc83a81871b",
-          // Mengarahkan OneSignal untuk mengambil satpam dari repositori utama
-          serviceWorkerPath: "https://msukri89.github.io/OneSignalSDKWorker.js"
+          
+          // PERBAIKAN: Cukup gunakan / di awal. Ini menyuruh sistem melompat ke halaman paling depan (msukri89.github.io)
+          serviceWorkerPath: "/OneSignalSDKWorker.js",
+          
+          // Tambahkan ini agar satpam di depan bisa mengontrol folder di belakangnya
+          serviceWorkerParam: { scope: "/" }
         });
       });
     </script>
     <!-- ============================================== -->
-
     <style>
         :root { --bg-putih: #FFFFFF; --aksen-oranye: #F26522; --teks-hitam: #1A1A1A; --font-arab: 'Amiri', serif; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
