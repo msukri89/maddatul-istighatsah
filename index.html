@@ -9,7 +9,6 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- === KODE ONESIGNAL FINAL === -->
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
       window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -33,45 +32,40 @@
         .kontrol-teks { display: flex; gap: 5px; }
         .kontrol-teks button { background: rgba(255,255,255,0.2); border: 1px solid var(--bg-putih); color: var(--bg-putih); padding: 5px 8px; border-radius: 5px; font-size: 14px; font-weight: bold; cursor: pointer; }
         
-        #halaman-sampul { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--bg-putih); z-index: 50; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease-out; }
-        #gambar-sampul { width: 100%; height: 100%; object-fit: cover; }
+        /* === GAYA HALAMAN SAMPUL BARU (DASHBOARD FOOTER) === */
+        #halaman-sampul { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--bg-putih); z-index: 50; display: flex; flex-direction: column; transition: opacity 0.5s ease-out; }
+        .cover-image-container { flex: 1; position: relative; width: 100%; overflow: hidden; }
+        #gambar-sampul { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
         
-        /* === GAYA FLAT DESIGN UNTUK MENU DI COVER === */
-        #menu-cover { 
-            position: absolute; bottom: 8%; width: 100%; 
-            display: grid; grid-template-columns: repeat(3, 1fr); 
-            gap: 12px; padding: 0 20px; z-index: 60; 
-        }
-        #menu-cover button { 
-            background-color: var(--aksen-oranye); color: #FFFFFF; 
-            border: none; padding: 12px 5px; border-radius: 10px; 
-            font-size: 13px; font-weight: bold; cursor: pointer; 
-            display: flex; justify-content: center; align-items: center; gap: 6px;
-            transition: transform 0.15s ease-in-out, background-color 0.15s;
-        }
-        /* Efek melesak halus saat ditekan */
-        #menu-cover button:active { 
-            transform: scale(0.92); background-color: #e05515; 
-        }
+        .cover-footer { height: 25vh; background-color: var(--aksen-oranye); display: flex; align-items: center; justify-content: center; padding: 15px; box-shadow: 0 -4px 15px rgba(0,0,0,0.1); z-index: 2; }
+        
+        #menu-cover { width: 100%; max-width: 450px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        #menu-cover button { background-color: rgba(255, 255, 255, 0.15); color: #FFFFFF; border: none; padding: 12px 5px; border-radius: 12px; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: transform 0.15s ease-in-out, background-color 0.15s; }
+        #menu-cover button:active { transform: scale(0.92); background-color: rgba(255, 255, 255, 0.25); }
+        #menu-cover button svg { width: 26px; height: 26px; fill: currentColor; }
         
         #area-baca { flex: 1; padding: 25px 20px 100px 20px; overflow-y: auto; position: relative; transition: opacity 0.3s ease-in-out; display: none; }
         .judul-bab { font-size: 18px; color: var(--aksen-oranye); text-align: center; margin-bottom: 20px; border-bottom: 2px dashed var(--aksen-oranye); padding-bottom: 10px; }
         #teks-arab { font-family: var(--font-arab); font-size: 32px; line-height: 2; text-align: justify; white-space: pre-wrap; }
-        #loading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 16px; color: var(--aksen-oranye); display: none; text-align: center; z-index: 100; font-weight: bold; background: white; padding: 10px 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        #loading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 16px; color: var(--bg-putih); display: none; text-align: center; z-index: 100; font-weight: bold; background: var(--aksen-oranye); padding: 10px 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         
         footer { background-color: var(--bg-putih); padding: 15px 20px; border-top: 1px solid #EEEEEE; display: none; justify-content: space-between; gap: 15px; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; padding-bottom: env(safe-area-inset-bottom, 15px); }
         .btn-nav { flex: 1; background-color: var(--aksen-oranye); color: var(--bg-putih); border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
         .btn-nav:disabled { background-color: #CCCCCC; }
         
-        .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(2px); }
-        .modal-konten { background-color: var(--bg-putih); margin: 15% auto; padding: 20px; border-radius: 12px; width: 85%; max-width: 400px; max-height: 70vh; display: flex; flex-direction: column; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed var(--aksen-oranye); padding-bottom: 10px; margin-bottom: 15px; }
-        .list-container { overflow-y: auto; flex: 1; }
-        .item-list { display: block; width: 100%; text-align: right; padding: 12px; margin-bottom: 10px; background-color: #FDFDFD; border: 1px solid #EEEEEE; border-radius: 8px; font-size: 16px; cursor: pointer; }
+        /* === GAYA MODAL/POPUP PROFESIONAL BARU === */
+        .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(2px); }
+        .modal-konten { background-color: var(--bg-putih); margin: 15% auto; padding: 0; border-radius: 12px; width: 85%; max-width: 400px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .modal-header { background-color: var(--aksen-oranye); color: var(--bg-putih); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { margin: 0; font-size: 18px; font-weight: bold; color: var(--bg-putih); }
+        .btn-close { background: none; border: none; color: var(--bg-putih); font-size: 22px; cursor: pointer; padding: 0; line-height: 1; }
+        .modal-body { padding: 20px; max-height: 60vh; overflow-y: auto; }
         
+        .item-list { display: block; width: 100%; text-align: right; padding: 12px; margin-bottom: 10px; background-color: #FDFDFD; border: 1px solid #EEEEEE; border-radius: 8px; font-size: 16px; cursor: pointer; color: var(--teks-hitam); }
         .agenda-card { background: #fffaf7; border-left: 4px solid var(--aksen-oranye); border-right: none; padding: 12px; margin-bottom: 10px; border-radius: 4px; text-align: left; direction: ltr; }
         .agenda-title { font-weight: bold; color: var(--aksen-oranye); margin-bottom: 5px; font-size: 16px;}
         .agenda-detail { font-size: 14px; color: #666; margin-bottom: 3px;}
+        .baris-shalat { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; font-size: 16px; color: var(--teks-hitam); }
 
         /* GAYA TASBIH & KIBLAT */
         .btn-tasbih-ketuk { width: 160px; height: 160px; border-radius: 50%; background-color: var(--aksen-oranye); color: white; font-size: 28px; border: none; box-shadow: 0 10px 20px rgba(242,101,34,0.3); cursor: pointer; margin: 20px auto; display: block; -webkit-tap-highlight-color: transparent; transition: transform 0.1s; }
@@ -79,26 +73,43 @@
         #kompas-container { position: relative; width: 220px; height: 220px; border-radius: 50%; border: 6px solid var(--aksen-oranye); margin: 20px auto; display: flex; justify-content: center; align-items: center; background: url('https://upload.wikimedia.org/wikipedia/commons/1/18/Compass_rose_brown.svg') no-repeat center center; background-size: cover; }
         #jarum-kiblat { position: absolute; width: 6px; height: 200px; transition: transform 0.2s ease-out; }
         .panah-kiblat { width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-bottom: 40px solid #28a745; position: absolute; top: 0; left: -17px; }
-        
-        /* GAYA BARIS JADWAL SHALAT */
-        .baris-shalat { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; font-size: 16px; }
     </style>
 </head>
 <body>
 
     <div id="halaman-sampul">
-        <div id="loading">Menyiapkan Kitab...</div>
-        <img src="sampul.jpg" alt="Sampul Kitab" id="gambar-sampul">
+        <div class="cover-image-container">
+            <div id="loading">Memuat Data...</div>
+            <img src="sampul.jpg" alt="Sampul Kitab" id="gambar-sampul">
+        </div>
         
-        <!-- WADAH MENU DI COVER DENGAN SUSUNAN 6 TOMBOL FLAT -->
-        <div id="menu-cover" style="display: none;">
-            <button onclick="bukaModal('modal-daftar-isi')">☰ Daftar Isi</button>
-            <button onclick="bukaModal('modal-agenda')">📅 Agenda</button>
-            <button onclick="bukaJadwalShalat()">🕌 Shalat</button>
-            
-            <button onclick="bukaModal('modal-tasbih')">📿 Tasbih</button>
-            <button onclick="bukaModal('modal-kiblat')">🕋 Kiblat</button>
-            <button onclick="mintaIzinNotif()">🔔 Notif</button>
+        <div class="cover-footer">
+            <div id="menu-cover" style="display: none;">
+                <button onclick="bukaModal('modal-daftar-isi')">
+                    <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+                    Daftar Isi
+                </button>
+                <button onclick="bukaModal('modal-agenda')">
+                    <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+                    Agenda
+                </button>
+                <button onclick="bukaJadwalShalat()">
+                    <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    Shalat
+                </button>
+                <button onclick="bukaModal('modal-tasbih')">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-3-9c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                    Tasbih
+                </button>
+                <button onclick="bukaModal('modal-kiblat')">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+                    Kiblat
+                </button>
+                <button onclick="mintaIzinNotif()">
+                    <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+                    Notif
+                </button>
+            </div>
         </div>
     </div>
 
@@ -122,60 +133,72 @@
         <button class="btn-nav" id="btn-sebelumnya" onclick="gantiHalaman(-1)">Sebelumnya »</button>
     </footer>
 
-    <!-- MODAL DAFTAR ISI -->
     <div id="modal-daftar-isi" class="modal">
         <div class="modal-konten">
-            <div class="modal-header"><h3>Menu Wirid</h3><button onclick="tutupModal('modal-daftar-isi')">✕</button></div>
-            <div id="list-daftar-isi" class="list-container"></div>
+            <div class="modal-header">
+                <h3>Menu Wirid</h3>
+                <button class="btn-close" onclick="tutupModal('modal-daftar-isi')">✕</button>
+            </div>
+            <div class="modal-body">
+                <div id="list-daftar-isi" class="list-container"></div>
+            </div>
         </div>
     </div>
 
-    <!-- MODAL AGENDA -->
     <div id="modal-agenda" class="modal">
         <div class="modal-konten">
             <div class="modal-header" style="direction: ltr;">
-                <h3 style="color: var(--aksen-oranye);">Agenda IASS</h3>
-                <button onclick="tutupModal('modal-agenda')" style="background:none;border:none;font-size:20px;color:#999;cursor:pointer;">✕</button>
+                <h3>Agenda IASS</h3>
+                <button class="btn-close" onclick="tutupModal('modal-agenda')">✕</button>
             </div>
-            <div id="list-agenda" class="list-container"></div>
+            <div class="modal-body">
+                <div id="list-agenda" class="list-container"></div>
+            </div>
         </div>
     </div>
 
-    <!-- MODAL TASBIH -->
     <div id="modal-tasbih" class="modal">
         <div class="modal-konten" style="text-align: center; direction: ltr;">
-            <div class="modal-header" style="direction: rtl;"><h3>التسبيح</h3><button onclick="tutupModal('modal-tasbih')">✕</button></div>
-            <div id="angka-tasbih" style="font-size: 80px; font-weight: bold; color: var(--aksen-oranye); font-family: var(--font-arab); line-height: 1;">٠</div>
-            <button class="btn-tasbih-ketuk" onclick="tambahTasbih()">Ketuk</button>
-            <button onclick="resetTasbih()" style="background: none; border: 2px solid var(--aksen-oranye); color: var(--aksen-oranye); padding: 10px 30px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px;">Mulai Ulang</button>
+            <div class="modal-header" style="direction: rtl;">
+                <h3>التسبيح</h3>
+                <button class="btn-close" onclick="tutupModal('modal-tasbih')">✕</button>
+            </div>
+            <div class="modal-body">
+                <div id="angka-tasbih" style="font-size: 80px; font-weight: bold; color: var(--aksen-oranye); font-family: var(--font-arab); line-height: 1;">٠</div>
+                <button class="btn-tasbih-ketuk" onclick="tambahTasbih()">Ketuk</button>
+                <button onclick="resetTasbih()" style="background: none; border: 2px solid var(--aksen-oranye); color: var(--aksen-oranye); padding: 10px 30px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px;">Mulai Ulang</button>
+            </div>
         </div>
     </div>
 
-    <!-- MODAL KIBLAT -->
     <div id="modal-kiblat" class="modal">
         <div class="modal-konten" style="text-align: center; direction: ltr;">
-            <div class="modal-header" style="direction: rtl;"><h3>اتجاه القبلة</h3><button onclick="tutupKiblat()">✕</button></div>
-            <p id="info-kiblat" style="font-size: 14px; color: #666; margin-bottom: 10px;">Izinkan GPS & Gerakkan HP seperti angka 8</p>
-            
-            <div id="kompas-container">
-                <div id="jarum-kiblat">
-                    <div class="panah-kiblat"></div>
-                </div>
+            <div class="modal-header" style="direction: rtl;">
+                <h3>اتجاه القبلة</h3>
+                <button class="btn-close" onclick="tutupKiblat()">✕</button>
             </div>
-            
-            <button onclick="mulaiKiblat()" style="margin-top: 20px; background-color: var(--aksen-oranye); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-size: 16px; font-weight:bold; cursor: pointer; width: 100%;">Deteksi Arah Kiblat</button>
+            <div class="modal-body">
+                <p id="info-kiblat" style="font-size: 14px; color: #666; margin-bottom: 10px;">Izinkan GPS & Gerakkan HP seperti angka 8</p>
+                <div id="kompas-container">
+                    <div id="jarum-kiblat">
+                        <div class="panah-kiblat"></div>
+                    </div>
+                </div>
+                <button onclick="mulaiKiblat()" style="margin-top: 20px; background-color: var(--aksen-oranye); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-size: 16px; font-weight:bold; cursor: pointer; width: 100%;">Deteksi Arah Kiblat</button>
+            </div>
         </div>
     </div>
 
-    <!-- MODAL JADWAL SHALAT (FITUR BARU) -->
     <div id="modal-shalat" class="modal">
         <div class="modal-konten">
             <div class="modal-header" style="direction: ltr;">
-                <h3 style="color: var(--aksen-oranye);">Jadwal Shalat Surabaya</h3>
-                <button onclick="tutupModal('modal-shalat')" style="background:none;border:none;font-size:20px;color:#999;cursor:pointer;">✕</button>
+                <h3>Jadwal Shalat Surabaya</h3>
+                <button class="btn-close" onclick="tutupModal('modal-shalat')">✕</button>
             </div>
-            <div id="loading-shalat" style="text-align:center; padding: 20px; color: var(--aksen-oranye);">Mengambil data Kemenag...</div>
-            <div id="list-shalat" class="list-container" style="direction: ltr; display: none;"></div>
+            <div class="modal-body" style="padding: 10px 20px;">
+                <div id="loading-shalat" style="text-align:center; padding: 20px; color: var(--aksen-oranye); font-weight: bold;">Mengambil data Kemenag...</div>
+                <div id="list-shalat" class="list-container" style="direction: ltr; display: none;"></div>
+            </div>
         </div>
     </div>
 
@@ -220,7 +243,7 @@
             dataWirid = res.wirid.sort((a, b) => parseInt(a.ID) - parseInt(b.ID));
             dataAgenda = res.agenda || [];
             document.getElementById('loading').style.display = 'none';
-            document.getElementById('menu-cover').style.display = 'grid'; // Grid untuk menampilkan 6 tombol rata
+            document.getElementById('menu-cover').style.display = 'grid';
             tampilkanHalaman(0);
             buatDaftarIsi();
             buatListAgenda();
@@ -233,7 +256,7 @@
 
         function buatListAgenda() {
             const container = document.getElementById('list-agenda');
-            if (dataAgenda.length === 0) { container.innerHTML = "<p style='text-align:center; direction:ltr;'>Belum ada agenda terdekat.</p>"; return; }
+            if (dataAgenda.length === 0) { container.innerHTML = "<p style='text-align:center; direction:ltr; margin-top:20px;'>Belum ada agenda terdekat.</p>"; return; }
             container.innerHTML = dataAgenda.map(item => `
                 <div class="agenda-card">
                     <div class="agenda-title">${item.Kegiatan || '-'}</div>
@@ -282,10 +305,9 @@
             const container = document.getElementById('list-shalat');
             const loading = document.getElementById('loading-shalat');
             
-            if (container.innerHTML !== '') return; // Jika sudah dimuat, jangan load ulang
+            if (container.innerHTML !== '') return;
             
             try {
-                // 1638 adalah ID Kota Surabaya di API Kemenag
                 const date = new Date();
                 const thn = date.getFullYear();
                 const bln = String(date.getMonth() + 1).padStart(2, '0');
@@ -297,7 +319,7 @@
                 if(data.status) {
                     const j = data.data.jadwal;
                     container.innerHTML = `
-                        <div style="text-align:center; background:var(--aksen-oranye); color:white; padding:8px; border-radius:6px; font-weight:bold; margin-bottom:15px;">${j.tanggal}</div>
+                        <div style="text-align:center; background:var(--aksen-oranye); color:white; padding:8px; border-radius:6px; font-weight:bold; margin-bottom:15px; margin-top:10px;">${j.tanggal}</div>
                         <div class="baris-shalat"><span>Imsak</span><strong>${j.imsak}</strong></div>
                         <div class="baris-shalat"><span>Subuh</span><strong>${j.subuh}</strong></div>
                         <div class="baris-shalat"><span>Terbit</span><strong>${j.terbit}</strong></div>
