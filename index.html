@@ -9,20 +9,21 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     
-   <!-- === KODE ONESIGNAL FINAL MUTLAK === -->
+    <!-- === KODE ONESIGNAL (MENGARAH KE RUMAH UTAMA) === -->
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       OneSignalDeferred.push(async function(OneSignal) {
         await OneSignal.init({
-          appId: "9c0b8050-c795-4ae5-b5ed-02391cc3f88e",
-          // Tulis alamat mutlak agar OneSignal tidak bisa tersesat lagi
-          serviceWorkerPath: "https://msukri89.github.io/maddatul-istighatsah/OneSignalSDKWorker.js",
-          serviceWorkerParam: { scope: "https://msukri89.github.io/maddatul-istighatsah/" }
+          // MASUKKAN APP ID ONESIGNAL BAPAK YANG BARU DI BAWAH INI:
+          appId: "6501ee2c-6c80-4ad9-a734-5bc83a81871b",
+          // Mengarahkan OneSignal untuk mengambil satpam dari repositori utama
+          serviceWorkerPath: "https://msukri89.github.io/OneSignalSDKWorker.js"
         });
       });
     </script>
-    <!-- ============================== -->
+    <!-- ============================================== -->
+
     <style>
         :root { --bg-putih: #FFFFFF; --aksen-oranye: #F26522; --teks-hitam: #1A1A1A; --font-arab: 'Amiri', serif; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -108,7 +109,8 @@
     </div>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbyc8T_ZNnYlQ7YWC9-Td1kyKUXuH-2sfH1CuzxSpnWlAK0JckwJubOtf9oLHlv4qd8/exec";
+        // MASUKKAN URL GOOGLE APPS SCRIPT BAPAK DI SINI:
+        const API_URL = "https://script.google.com/macros/s/AKfycbwNGayUMCnJ7PtOVrwWoZDn6XpTzuMzKvrwIeikMGdhDDnqLmc4tUUooKBUKg2CNie-/exec";
         
         let dataWirid = []; let dataAgenda = []; let halamanSaatIni = 0; let ukuranFont = 32;
 
@@ -203,10 +205,10 @@
         window.onclick = e => { if (e.target.className === 'modal') { e.target.style.display = 'none'; } }
         muatData();
 
-        // Registrasi Service Worker diarahkan ke file baru
+        // Registrasi Service Worker Utama untuk Aplikasi Offline (Biarkan Tetap di Folder Ini)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => { 
-                navigator.serviceWorker.register('./OneSignalSDKWorker.js', { scope: '/maddatul-istighatsah/' }); 
+                navigator.serviceWorker.register('./sw.js', { scope: '/maddatul-istighatsah/' }); 
             });
         }
     </script>
