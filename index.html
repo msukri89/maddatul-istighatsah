@@ -38,23 +38,21 @@
         .cover-image-container { flex: 1; position: relative; width: 100%; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 20px; }
         #gambar-sampul { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 0; }
         
-        /* AGENDA HEADLINE (FONT DIPERBESAR) */
-        #agenda-headline-container { z-index: 10; width: 92%; max-width: 380px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(8px); border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-left: 6px solid var(--aksen-oranye); display: none; direction: ltr; }
+        /* WIDGET SHALAT (POSISI BARU: DI ATAS AGENDA) */
+        #widget-shalat-sampul { z-index: 10; text-align: center; display: none; direction: ltr; margin-bottom: 20px; }
+        #tanggal-hari-ini { color: var(--teks-hitam); font-size: 22px; font-weight: bold; display: block; margin-bottom: 2px; text-shadow: 1px 1px 2px rgba(255,255,255,0.8); }
+        #shalat-target-nama { color: var(--aksen-oranye); font-size: 30px; font-weight: 900; display: block; text-shadow: 0px 0px 8px rgba(255,255,255,1), 1px 1px 2px rgba(0,0,0,0.2); }
+        #shalat-target-waktu { color: var(--teks-hitam); font-size: 18px; font-weight: bold; text-shadow: 1px 1px 2px rgba(255,255,255,0.9); }
+
+        /* AGENDA HEADLINE (POSISI BARU: DI BAWAH SHALAT) */
+        #agenda-headline-container { z-index: 10; width: 92%; max-width: 380px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(8px); border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-left: 6px solid var(--aksen-oranye); display: none; direction: ltr; }
         .ah-title { color: var(--aksen-oranye); font-weight: 900; font-size: 18px; margin-bottom: 5px; display: block; }
         .ah-info { color: #333; font-size: 14px; font-weight: 500; display: block; margin-bottom: 2px; }
         .ah-link { color: var(--aksen-oranye); font-size: 14px; font-weight: bold; text-decoration: none; margin-top: 8px; display: inline-block; border-bottom: 1px solid var(--aksen-oranye); }
 
-        /* WIDGET SHALAT (SHADOW PUTIH) */
-        #widget-shalat-sampul { z-index: 10; text-align: center; display: none; direction: ltr; margin-bottom: 5px; }
-        #tanggal-hari-ini { color: var(--teks-hitam); font-size: 20px; font-weight: bold; display: block; margin-bottom: 2px; text-shadow: 1px 1px 2px rgba(255,255,255,0.8); }
-        #shalat-target-nama { color: var(--aksen-oranye); font-size: 28px; font-weight: 900; display: block; text-shadow: 0px 0px 8px rgba(255,255,255,1), 1px 1px 2px rgba(0,0,0,0.2); }
-        #shalat-target-waktu { color: var(--teks-hitam); font-size: 18px; font-weight: bold; text-shadow: 1px 1px 2px rgba(255,255,255,0.9); }
-
         .cover-footer { height: 28vh; background-color: var(--aksen-oranye); display: flex; align-items: center; justify-content: center; padding: 15px; z-index: 2; }
         #menu-cover { width: 100%; max-width: 450px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
         #menu-cover button { background-color: rgba(255, 255, 255, 0.15); color: #FFFFFF; border: none; padding: 12px 5px; border-radius: 12px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: transform 0.1s; }
-        #menu-cover button:active { transform: scale(0.92); }
-        #menu-cover button svg { width: 24px; height: 24px; fill: #FFFFFF; }
         
         #loading { position: fixed; bottom: 30vh; left: 50%; transform: translateX(-50%); font-size: 14px; color: #fff; z-index: 100; font-weight: bold; background: rgba(242, 101, 34, 0.9); padding: 8px 20px; border-radius: 20px; display: none; }
         #area-baca { flex: 1; padding: 20px 20px 100px 20px; overflow-y: auto; display: none; }
@@ -82,19 +80,19 @@
             <div id="loading">Memuat Data...</div>
             <img src="sampul.jpg" alt="Sampul Kitab" id="gambar-sampul">
             
-            <!-- AGENDA TERDEKAT (HEADLINE) -->
+            <!-- WIDGET SHALAT (DI ATAS) -->
+            <div id="widget-shalat-sampul">
+                <span id="tanggal-hari-ini"></span>
+                <span id="shalat-target-nama">Subuh</span>
+                <span id="shalat-target-waktu">00:00:00 lagi</span>
+            </div>
+
+            <!-- AGENDA TERDEKAT (DI BAWAH) -->
             <div id="agenda-headline-container">
                 <span class="ah-title" id="ah-kegiatan">Memuat Agenda...</span>
                 <span class="ah-info" id="ah-waktu"></span>
                 <span class="ah-info" id="ah-lokasi"></span>
                 <a href="#" target="_blank" class="ah-link" id="ah-map">Petunjuk Lokasi Maps ➔</a>
-            </div>
-
-            <!-- JADWAL SHALAT (WIDGET BARU) -->
-            <div id="widget-shalat-sampul">
-                <span id="tanggal-hari-ini"></span>
-                <span id="shalat-target-nama">Subuh</span>
-                <span id="shalat-target-waktu">00:00:00 lagi</span>
             </div>
         </div>
         <div class="cover-footer">
@@ -203,7 +201,6 @@
         async function muatJadwalShalat() {
             try {
                 const d = new Date();
-                // Set Tanggal Widget
                 const opt = { day: 'numeric', month: 'long', year: 'numeric' };
                 document.getElementById('tanggal-hari-ini').innerText = d.toLocaleDateString('id-ID', opt);
                 
