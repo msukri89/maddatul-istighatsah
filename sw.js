@@ -1,4 +1,4 @@
-importScripts("https://cdn.onesignal.com/sdks/web/v25/OneSignalSDK.sw.js");
+importScripts("https://cdn.onesignal.com/sdks/web/v26/OneSignalSDK.sw.js");
 
 const CACHE_NAME = 'maddatul-istighatsah-v12';
 const urlsToCache = [
