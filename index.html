@@ -38,40 +38,37 @@
         .cover-image-container { flex: 1; position: relative; width: 100%; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 20px; }
         #gambar-sampul { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 0; }
         
-        /* AGENDA HEADLINE DI HOME */
-        #agenda-headline-container { z-index: 10; width: 90%; max-width: 350px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(8px); border-radius: 12px; padding: 12px; margin-bottom: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-left: 5px solid var(--aksen-oranye); display: none; direction: ltr; }
-        .ah-title { color: var(--aksen-oranye); font-weight: 800; font-size: 15px; margin-bottom: 3px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .ah-info { color: #444; font-size: 12px; display: block; }
-        .ah-link { color: var(--aksen-oranye); font-size: 12px; font-weight: bold; text-decoration: none; margin-top: 5px; display: inline-block; }
+        /* AGENDA HEADLINE (FONT DIPERBESAR) */
+        #agenda-headline-container { z-index: 10; width: 92%; max-width: 380px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(8px); border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-left: 6px solid var(--aksen-oranye); display: none; direction: ltr; }
+        .ah-title { color: var(--aksen-oranye); font-weight: 900; font-size: 18px; margin-bottom: 5px; display: block; }
+        .ah-info { color: #333; font-size: 14px; font-weight: 500; display: block; margin-bottom: 2px; }
+        .ah-link { color: var(--aksen-oranye); font-size: 14px; font-weight: bold; text-decoration: none; margin-top: 8px; display: inline-block; border-bottom: 1px solid var(--aksen-oranye); }
 
-        /* WIDGET SHALAT DI HOME */
+        /* WIDGET SHALAT (SHADOW PUTIH) */
         #widget-shalat-sampul { z-index: 10; text-align: center; display: none; direction: ltr; margin-bottom: 5px; }
-        #shalat-target-nama { color: var(--aksen-oranye); font-size: 26px; font-weight: 900; display: block; text-shadow: 1px 1px 2px rgba(255,255,255,0.8); }
-        #shalat-target-waktu { color: var(--teks-hitam); font-size: 16px; font-weight: bold; text-shadow: 1px 1px 1px rgba(255,255,255,0.8); }
+        #tanggal-hari-ini { color: var(--teks-hitam); font-size: 15px; font-weight: bold; display: block; margin-bottom: 2px; text-shadow: 1px 1px 2px rgba(255,255,255,0.8); }
+        #shalat-target-nama { color: var(--aksen-oranye); font-size: 28px; font-weight: 900; display: block; text-shadow: 0px 0px 8px rgba(255,255,255,1), 1px 1px 2px rgba(0,0,0,0.2); }
+        #shalat-target-waktu { color: var(--teks-hitam); font-size: 18px; font-weight: bold; text-shadow: 1px 1px 2px rgba(255,255,255,0.9); }
 
         .cover-footer { height: 28vh; background-color: var(--aksen-oranye); display: flex; align-items: center; justify-content: center; padding: 15px; z-index: 2; }
         #menu-cover { width: 100%; max-width: 450px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        #menu-cover button { background-color: rgba(255, 255, 255, 0.15); color: #FFFFFF; border: none; padding: 12px 5px; border-radius: 12px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        #menu-cover button { background-color: rgba(255, 255, 255, 0.15); color: #FFFFFF; border: none; padding: 12px 5px; border-radius: 12px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: transform 0.1s; }
+        #menu-cover button:active { transform: scale(0.92); }
         #menu-cover button svg { width: 24px; height: 24px; fill: #FFFFFF; }
         
         #loading { position: fixed; bottom: 30vh; left: 50%; transform: translateX(-50%); font-size: 14px; color: #fff; z-index: 100; font-weight: bold; background: rgba(242, 101, 34, 0.9); padding: 8px 20px; border-radius: 20px; display: none; }
-        
         #area-baca { flex: 1; padding: 20px 20px 100px 20px; overflow-y: auto; display: none; }
         #teks-arab { font-family: var(--font-arab); font-size: 32px; line-height: 2.2; text-align: justify; white-space: pre-wrap; direction: rtl; }
-        
         footer { background-color: var(--bg-putih); padding: 15px 20px; border-top: 1px solid #EEEEEE; display: none; justify-content: space-between; gap: 15px; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; padding-bottom: env(safe-area-inset-bottom, 15px); }
         .btn-nav { flex: 1; background-color: var(--aksen-oranye); color: var(--bg-putih); border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: bold; }
-
         .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(2px); }
         .modal-konten { background-color: var(--bg-putih); margin: 12% auto; border-radius: 15px; width: 88%; max-width: 420px; display: flex; flex-direction: column; overflow: hidden; }
         .modal-header { background-color: var(--aksen-oranye); color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
         .btn-close { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
         .modal-body { padding: 20px; max-height: 65vh; overflow-y: auto; }
-        
         .item-list { display: block; width: 100%; text-align: right; padding: 14px; margin-bottom: 10px; background-color: #f9f9f9; border: 1px solid #eee; border-radius: 10px; font-size: 16px; cursor: pointer; }
         .agenda-card { background: #fffaf7; border-left: 5px solid var(--aksen-oranye); padding: 15px; margin-bottom: 12px; border-radius: 8px; text-align: left; direction: ltr; }
         .baris-shalat { display: flex; justify-content: space-between; padding: 12px 5px; border-bottom: 1px solid #f0f0f0; font-size: 16px; }
-
         .btn-tasbih-ketuk { width: 170px; height: 170px; border-radius: 50%; background-color: var(--aksen-oranye); color: white; font-size: 32px; border: none; margin: 25px auto; display: block; }
         #kompas-container { position: relative; width: 240px; height: 240px; border-radius: 50%; border: 8px solid var(--aksen-oranye); margin: 20px auto; display: flex; justify-content: center; align-items: center; background: url('https://upload.wikimedia.org/wikipedia/commons/1/18/Compass_rose_brown.svg') no-repeat center center; background-size: cover; }
         #jarum-kiblat { position: absolute; width: 8px; height: 210px; transition: transform 0.2s ease-out; }
@@ -90,11 +87,12 @@
                 <span class="ah-title" id="ah-kegiatan">Memuat Agenda...</span>
                 <span class="ah-info" id="ah-waktu"></span>
                 <span class="ah-info" id="ah-lokasi"></span>
-                <a href="#" target="_blank" class="ah-link" id="ah-map">Lihat Peta ➔</a>
+                <a href="#" target="_blank" class="ah-link" id="ah-map">Petunjuk Lokasi Maps ➔</a>
             </div>
 
-            <!-- JADWAL SHALAT -->
+            <!-- JADWAL SHALAT (WIDGET BARU) -->
             <div id="widget-shalat-sampul">
+                <span id="tanggal-hari-ini"></span>
                 <span id="shalat-target-nama">Subuh</span>
                 <span id="shalat-target-waktu">00:00:00 lagi</span>
             </div>
@@ -174,18 +172,11 @@
             if (dataAgenda.length === 0) return;
             const container = document.getElementById('agenda-headline-container');
             const sekarang = new Date();
-            // Cari agenda terdekat yang belum lewat
             const terdekat = dataAgenda.find(a => new Date(a.Tanggal) >= sekarang) || dataAgenda[0];
-            
             document.getElementById('ah-kegiatan').innerText = terdekat.Kegiatan;
             document.getElementById('ah-waktu').innerText = `📅 ${formatWaktu(terdekat.Tanggal, 'tanggal')} | ⏰ ${formatWaktu(terdekat.Jam, 'jam')}`;
             document.getElementById('ah-lokasi').innerText = `📍 ${terdekat.Lokasi}`;
-            if(terdekat.Link_Map) {
-                document.getElementById('ah-map').href = terdekat.Link_Map;
-                document.getElementById('ah-map').style.display = 'inline-block';
-            } else {
-                document.getElementById('ah-map').style.display = 'none';
-            }
+            if(terdekat.Link_Map) { document.getElementById('ah-map').href = terdekat.Link_Map; document.getElementById('ah-map').style.display = 'inline-block'; }
             container.style.display = 'block';
         }
 
@@ -211,7 +202,12 @@
 
         async function muatJadwalShalat() {
             try {
-                const d = new Date(); const res = await (await fetch(`https://api.myquran.com/v2/sholat/jadwal/1638/${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`)).json();
+                const d = new Date();
+                // Set Tanggal Widget
+                const opt = { day: 'numeric', month: 'long', year: 'numeric' };
+                document.getElementById('tanggal-hari-ini').innerText = d.toLocaleDateString('id-ID', opt);
+                
+                const res = await (await fetch(`https://api.myquran.com/v2/sholat/jadwal/1638/${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`)).json();
                 if(res.status) {
                     dataJadwalGlobal = res.data.jadwal;
                     document.getElementById('loading-shalat').style.display = 'none';
@@ -232,9 +228,7 @@
                     let [h, m] = dataJadwalGlobal[s].split(':'); let t = new Date(); t.setHours(h, m, 0);
                     if (t > skrg) { tN = s; tJ = t; break; }
                 }
-                if (!tN) {
-                    let [h, m] = dataJadwalGlobal['subuh'].split(':'); tJ = new Date(); tJ.setDate(tJ.getDate() + 1); tJ.setHours(h, m, 0); tN = "subuh";
-                }
+                if (!tN) { let [h, m] = dataJadwalGlobal['subuh'].split(':'); tJ = new Date(); tJ.setDate(tJ.getDate() + 1); tJ.setHours(h, m, 0); tN = "subuh"; }
                 let sel = Math.floor((tJ - skrg) / 1000);
                 let hr = Math.floor(sel / 3600); let mn = Math.floor((sel % 3600) / 60); let sc = sel % 60;
                 n.innerText = tN.charAt(0).toUpperCase() + tN.slice(1) + " - " + dataJadwalGlobal[tN];
@@ -245,13 +239,13 @@
         let hT = 0; function tambahTasbih() { hT++; document.getElementById('angka-tasbih').innerText = ubahKeAngkaArab(hT); }
         function resetTasbih() { hT = 0; document.getElementById('angka-tasbih').innerText = ubahKeAngkaArab(0); }
 
-        let kL = null; function mulaiKiblat() { if (navigator.geolocation) { navigator.geolocation.getCurrentPosition(p => { 
+        function mulaiKiblat() { if (navigator.geolocation) { navigator.geolocation.getCurrentPosition(p => { 
             const q = (Math.atan2(Math.sin((39.826206 - p.coords.longitude) * Math.PI / 180), Math.cos(p.coords.latitude * Math.PI / 180) * Math.tan(21.422487 * Math.PI / 180) - Math.sin(p.coords.latitude * Math.PI / 180) * Math.cos((39.826206 - p.coords.longitude) * Math.PI / 180)) * 180 / Math.PI + 360) % 360;
             document.getElementById('info-kiblat').innerHTML = "Kiblat: " + Math.round(q) + "°";
             if (typeof DeviceOrientationEvent.requestPermission === 'function') { DeviceOrientationEvent.requestPermission().then(s => { if (s === 'granted') jalankanKompas(q); }); } else { jalankanKompas(q); }
         }); } }
-        function jalankanKompas(q) { kL = e => { let a = e.webkitCompassHeading || Math.abs(e.alpha - 360); if (a) document.getElementById('jarum-kiblat').style.transform = `rotate(${q - a}deg)`; }; window.addEventListener('deviceorientationabsolute', kL, true); window.addEventListener('deviceorientation', kL, true); }
-        function tutupKiblat() { tutupModal('modal-kiblat'); if (kL) { window.removeEventListener('deviceorientationabsolute', kL, true); window.removeEventListener('deviceorientation', kL, true); } }
+        function jalankanKompas(q) { window.addEventListener('deviceorientationabsolute', e => { let a = e.webkitCompassHeading || Math.abs(e.alpha - 360); if (a) document.getElementById('jarum-kiblat').style.transform = `rotate(${q - a}deg)`; }, true); }
+        function tutupKiblat() { tutupModal('modal-kiblat'); }
 
         window.onclick = e => { if (e.target.className === 'modal') { e.target.style.display = 'none'; } }
         muatData();
