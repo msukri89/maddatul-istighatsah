@@ -65,7 +65,6 @@
         
         .item-list { display: block; width: 100%; text-align: right; padding: 14px; margin-bottom: 10px; background-color: #f9f9f9; border: 1px solid #eee; border-radius: 10px; font-size: 16px; cursor: pointer; color: var(--teks-hitam); }
         
-        /* Modifikasi Agenda Card untuk dinamis */
         .agenda-card { background: #fffaf7; border-left: 5px solid; padding: 15px; margin-bottom: 12px; border-radius: 8px; text-align: left; direction: ltr; transition: all 0.3s ease; }
         .baris-shalat { display: flex; justify-content: space-between; padding: 12px 5px; border-bottom: 1px solid #f0f0f0; font-size: 16px; }
 
@@ -121,7 +120,7 @@
     <div id="modal-shalat" class="modal"><div class="modal-konten"><div class="modal-header" style="direction: ltr;"><h3>Jadwal Shalat Surabaya</h3><button class="btn-close" onclick="tutupModal('modal-shalat')">✕</button></div><div class="modal-body"><div id="loading-shalat" style="text-align:center; padding: 20px; color: var(--aksen-oranye); font-weight: bold;">Menghubungi Server...</div><div id="list-shalat" class="list-container" style="direction: ltr; display: none;"></div></div></div></div>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbwU0RH7UM6BkXM5K1eKIfZELhLySbhG8WOeRiNRKQNwzDkl1aSz7FG0fl5HvN1N9j4T/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycby-C6xM5EeLlmGoQoOTlDnhEe8dk9S_c4L8AXTzsg25uHI6ZyaPxcXVR7z1dvcABkVW/exec";
         let dataWirid = []; let dataAgenda = []; let dataJadwalGlobal = null; let halamanSaatIni = 0; let ukuranFont = 32;
 
         window.onpopstate = function() {
@@ -159,7 +158,6 @@
 
         function buatDaftarIsi() { document.getElementById('list-daftar-isi').innerHTML = dataWirid.map((item, i) => `<button class="item-list" onclick="pilihHalaman(${i})">${ubahKeAngkaArab(item.Judul)}</button>`).join(''); }
         
-        // --- LOGIKA CERDAS AGENDA SELESAI ---
         function buatListAgenda() { 
             const container = document.getElementById('list-agenda');
             if (dataAgenda.length === 0) { 
@@ -170,17 +168,14 @@
             const sekarang = new Date();
             
             container.innerHTML = dataAgenda.map(item => { 
-                // Menggabungkan tanggal dan jam untuk perbandingan waktu yang presisi
                 let waktuAcara = new Date(item.Tanggal);
                 if (item.Jam && item.Jam.toString().includes('T')) {
                     let jam = new Date(item.Jam);
                     waktuAcara.setHours(jam.getHours(), jam.getMinutes(), 0);
                 }
                 
-                // Deteksi apakah acara sudah lewat
                 let sudahSelesai = waktuAcara < sekarang;
                 
-                // Setel Warna Dinamis
                 let warnaGaris = sudahSelesai ? '#cccccc' : 'var(--aksen-oranye)';
                 let warnaJudul = sudahSelesai ? '#999999' : 'var(--aksen-oranye)';
                 let warnaTeks = sudahSelesai ? '#aaaaaa' : '#333333';
@@ -202,7 +197,7 @@
         }
 
         function tampilkanHalaman(i) {
-            const item = dataWirid[index];
+            const item = dataWirid[i]; // TYPO DIPERBAIKI DI SINI (dari index menjadi i)
             document.getElementById('judul-header').innerText = ubahKeAngkaArab(item.Judul);
             document.getElementById('teks-arab').innerHTML = ubahKeAngkaArab(item.Isi_Arab.replace(/\\r\\n/g, '<br>').replace(/\\n/g, '<br>'));
             document.getElementById('btn-sebelumnya').disabled = (i === 0);
