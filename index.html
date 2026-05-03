@@ -35,12 +35,17 @@
         .kontrol-teks button { background: rgba(255,255,255,0.2); border: 1.5px solid var(--bg-putih); color: var(--bg-putih); padding: 4px 10px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
         
         #halaman-sampul { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--bg-putih); z-index: 50; display: flex; flex-direction: column; transition: opacity 0.5s ease-out; }
-        .cover-image-container { flex: 1; position: relative; width: 100%; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
+        .cover-image-container { flex: 1; position: relative; width: 100%; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 10px; }
         #gambar-sampul { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 0; }
         
-        #widget-shalat-sampul { z-index: 10; text-align: center; margin-bottom: 25px; display: none; direction: ltr; }
-        #shalat-target-nama { color: var(--aksen-oranye); font-size: 26px; font-weight: 900; display: block; margin-bottom: 2px; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        /* WIDGET SHALAT DI SAMPUL */
+        #widget-shalat-sampul { z-index: 10; text-align: center; margin-bottom: 15px; display: none; direction: ltr; }
+        #tanggal-hari-ini { font-size: 18px; font-weight: 600; color: var(--teks-hitam); display: block; margin-bottom: 5px; text-shadow: 1px 1px 2px rgba(255,255,255,0.8); }
+        #shalat-target-nama { color: var(--aksen-oranye); font-size: 28px; font-weight: 900; display: block; margin-bottom: 2px; text-shadow: 1px 1px 1px rgba(255,255,255,0.8); }
         #shalat-target-waktu { color: var(--teks-hitam); font-size: 16px; font-weight: bold; text-shadow: 1px 1px 1px rgba(255,255,255,0.8); }
+
+        /* WIDGET AGENDA TERDEKAT DI SAMPUL */
+        #agenda-terdekat-sampul { z-index: 10; width: 92%; max-width: 420px; background: #ffffff; border-left: 6px solid var(--aksen-oranye); border-radius: 12px; padding: 15px; margin-bottom: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); display: none; direction: ltr; text-align: left; }
 
         .cover-footer { height: 28vh; background-color: var(--aksen-oranye); display: flex; align-items: center; justify-content: center; padding: 15px; z-index: 2; }
         #menu-cover { width: 100%; max-width: 450px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
@@ -81,11 +86,20 @@
         <div class="cover-image-container">
             <div id="loading">Memuat Data...</div>
             <img src="sampul.jpg" alt="Sampul Kitab" id="gambar-sampul">
+            
+            <!-- WIDGET SHALAT & TANGGAL -->
             <div id="widget-shalat-sampul">
+                <span id="tanggal-hari-ini">Memuat Tanggal...</span>
                 <span id="shalat-target-nama">Subuh - 04:04</span>
                 <span id="shalat-target-waktu">00:00:00 lagi</span>
             </div>
+
+            <!-- WIDGET AGENDA TERDEKAT -->
+            <div id="agenda-terdekat-sampul">
+                <!-- Data akan diisi oleh JavaScript -->
+            </div>
         </div>
+        
         <div class="cover-footer">
             <div id="menu-cover" style="display: none;">
                 <button onclick="bukaModalNav('modal-daftar-isi')"><svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>Daftar Isi</button>
@@ -113,6 +127,7 @@
         <button class="btn-nav" id="btn-sebelumnya" onclick="gantiHalaman(-1)">Sebelumnya »</button>
     </footer>
 
+    <!-- MODAL POPUP -->
     <div id="modal-daftar-isi" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Daftar Isi</h3><button class="btn-close" onclick="tutupModal('modal-daftar-isi')">✕</button></div><div class="modal-body"><div id="list-daftar-isi" class="list-container"></div></div></div></div>
     <div id="modal-agenda" class="modal"><div class="modal-konten"><div class="modal-header" style="direction: ltr;"><h3>Agenda IASS</h3><button class="btn-close" onclick="tutupModal('modal-agenda')">✕</button></div><div class="modal-body"><div id="list-agenda" class="list-container"></div></div></div></div>
     <div id="modal-tasbih" class="modal"><div class="modal-konten" style="text-align: center; direction: ltr;"><div class="modal-header" style="direction: rtl;"><h3>التسبيح</h3><button class="btn-close" onclick="tutupModal('modal-tasbih')">✕</button></div><div class="modal-body"><div id="angka-tasbih" style="font-size: 90px; font-weight: bold; color: var(--aksen-oranye); font-family: var(--font-arab);">٠</div><button class="btn-tasbih-ketuk" onclick="tambahTasbih()">Ketuk</button><button onclick="resetTasbih()" style="background: none; border: 2px solid var(--aksen-oranye); color: var(--aksen-oranye); padding: 12px 35px; border-radius: 10px; font-weight: bold; margin-top: 15px; cursor: pointer;">Mulai Ulang</button></div></div></div>
@@ -153,11 +168,16 @@
             dataAgenda = res.agenda || [];
             document.getElementById('loading').style.display = 'none';
             document.getElementById('menu-cover').style.display = 'grid';
-            tampilkanHalaman(0); buatDaftarIsi(); buatListAgenda();
+            
+            tampilkanHalaman(0); 
+            buatDaftarIsi(); 
+            buatListAgenda(); 
+            updateAgendaTerdekat(); // Panggil fungsi memuat kartu depan
         }
 
         function buatDaftarIsi() { document.getElementById('list-daftar-isi').innerHTML = dataWirid.map((item, i) => `<button class="item-list" onclick="pilihHalaman(${i})">${ubahKeAngkaArab(item.Judul)}</button>`).join(''); }
         
+        // --- LOGIKA AGENDA SELESAI DI POPUP ---
         function buatListAgenda() { 
             const container = document.getElementById('list-agenda');
             if (dataAgenda.length === 0) { 
@@ -166,7 +186,6 @@
             }
             
             const sekarang = new Date();
-            
             container.innerHTML = dataAgenda.map(item => { 
                 let waktuAcara = new Date(item.Tanggal);
                 if (item.Jam && item.Jam.toString().includes('T')) {
@@ -175,14 +194,13 @@
                 }
                 
                 let sudahSelesai = waktuAcara < sekarang;
-                
                 let warnaGaris = sudahSelesai ? '#cccccc' : 'var(--aksen-oranye)';
                 let warnaJudul = sudahSelesai ? '#999999' : 'var(--aksen-oranye)';
                 let warnaTeks = sudahSelesai ? '#aaaaaa' : '#333333';
                 let bgCard = sudahSelesai ? '#fafafa' : '#fffaf7';
                 
                 let labelSelesai = sudahSelesai ? `<span style="background:#eeeeee; color:#999; font-size:11px; padding:2px 6px; border-radius:4px; margin-left:8px; vertical-align:middle;">Selesai</span>` : '';
-                let linkMaps = (!sudahSelesai && item.Link_Map) ? `<a href="${item.Link_Map}" target="_blank" style="color:var(--aksen-oranye);font-weight:bold;display:block;margin-top:5px;">Maps ➔</a>` : '';
+                let linkMaps = (!sudahSelesai && item.Link_Map) ? `<a href="${item.Link_Map}" target="_blank" style="color:var(--aksen-oranye);font-weight:bold;display:block;margin-top:5px;text-decoration:none;">Petunjuk Lokasi Maps ➔</a>` : '';
                 
                 return `
                 <div class="agenda-card" style="border-left-color:${warnaGaris}; background:${bgCard};">
@@ -196,8 +214,44 @@
             }).join(''); 
         }
 
+        // --- MENCARI 1 AGENDA TERDEKAT UNTUK SAMPUL DEPAN ---
+        function updateAgendaTerdekat() {
+            const container = document.getElementById('agenda-terdekat-sampul');
+            if (dataAgenda.length === 0) { container.style.display = 'none'; return; }
+
+            const sekarang = new Date();
+            let agendaBerikutnya = null;
+
+            for (let item of dataAgenda) {
+                let waktuAcara = new Date(item.Tanggal);
+                if (item.Jam && item.Jam.toString().includes('T')) {
+                    let jam = new Date(item.Jam);
+                    waktuAcara.setHours(jam.getHours(), jam.getMinutes(), 0);
+                }
+                if (waktuAcara >= sekarang) {
+                    agendaBerikutnya = item;
+                    break;
+                }
+            }
+
+            if (agendaBerikutnya) {
+                let linkMaps = agendaBerikutnya.Link_Map ? `<a href="${agendaBerikutnya.Link_Map}" target="_blank" style="color:var(--aksen-oranye);font-weight:bold;display:block;margin-top:8px;text-decoration:none;">Petunjuk Lokasi Maps ➔</a>` : '';
+                container.innerHTML = `
+                    <div style="font-weight:bold; color:var(--aksen-oranye); font-size:17px; margin-bottom:8px;">
+                        ${agendaBerikutnya.Kegiatan}
+                    </div>
+                    <div style="color:#333; font-size:14px; margin-bottom:3px;">📅 ${formatWaktu(agendaBerikutnya.Tanggal, 'tanggal')} | ⏰ ${formatWaktu(agendaBerikutnya.Jam, 'jam')}</div>
+                    <div style="color:#333; font-size:14px; line-height: 1.4;">📍 ${agendaBerikutnya.Lokasi}</div>
+                    ${linkMaps}
+                `;
+                container.style.display = 'block';
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
         function tampilkanHalaman(i) {
-            const item = dataWirid[i]; // TYPO DIPERBAIKI DI SINI (dari index menjadi i)
+            const item = dataWirid[i];
             document.getElementById('judul-header').innerText = ubahKeAngkaArab(item.Judul);
             document.getElementById('teks-arab').innerHTML = ubahKeAngkaArab(item.Isi_Arab.replace(/\\r\\n/g, '<br>').replace(/\\n/g, '<br>'));
             document.getElementById('btn-sebelumnya').disabled = (i === 0);
@@ -230,11 +284,21 @@
         }
 
         function mulaiCountdown() {
+            const displayTanggal = document.getElementById('tanggal-hari-ini');
             const displayNama = document.getElementById('shalat-target-nama');
             const displayWaktu = document.getElementById('shalat-target-waktu');
+            
+            const hariIndo = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const bulanIndo = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
             document.getElementById('widget-shalat-sampul').style.display = 'block';
+            
             setInterval(() => {
                 const sekarang = new Date();
+                
+                // UPDATE TANGGAL HARI INI
+                displayTanggal.innerText = `${hariIndo[sekarang.getDay()]}, ${sekarang.getDate()} ${bulanIndo[sekarang.getMonth()]} ${sekarang.getFullYear()}`;
+
                 const daftar = ['subuh','dzuhur','ashar','maghrib','isya'];
                 let tNama = ""; let tJam = "";
                 for (let s of daftar) {
@@ -249,6 +313,7 @@
                 }
                 let sel = Math.floor((tJam - sekarang) / 1000);
                 let h = Math.floor(sel / 3600); let m = Math.floor((sel % 3600) / 60); let s = sel % 60;
+                
                 displayNama.innerText = tNama.charAt(0).toUpperCase() + tNama.slice(1) + " - " + dataJadwalGlobal[tNama];
                 displayWaktu.innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} lagi`;
             }, 1000);
